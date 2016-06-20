@@ -50,3 +50,7 @@ end
 SQL.Exec = function(query, ...)
   return dbExec(SQL.connection, query, ...)
 end
+
+SQL.PrepareString = function(query, ...)
+  return dbPrepareString(SQL.connection, query, ...)
+end

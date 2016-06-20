@@ -21,6 +21,7 @@
   <script src="server/sql/structure.lua" type="server" />
 
   <script src="server/events.lua" type="server" />
+  <script src="server/player.lua" type="server" />
   <script src="server/account.lua" type="server" />
   <script src="server/main.lua" type="server" />
   <!-- End Server -->
@@ -32,6 +33,7 @@
   <script src="client/account.lua" type="client" cache="false"/>
   <script src="client/translation.lua" type="client" cache="false"/>
   <script src="client/radar.lua" type="client" cache="false"/>
+  <script src="client/models.lua" type="client" cache="false"/>
 
   <script src="client/main.lua" type="client" cache="false"/>
   <!-- End Client -->
@@ -225,5 +227,13 @@
   <file src="files/images/radar/blips/62.png" />
   <file src="files/images/radar/blips/63.png" />
   <file src="files/images/radar/blips/64.png" />
+
+
+  <file src="files/models/atm/atm.col" />
+  <file src="files/models/atm/atm.txd" />
+  <file src="files/models/atm/atm.dff" />
+
+
+
   <!-- End Files -->
 </meta>

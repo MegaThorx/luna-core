@@ -71,6 +71,14 @@ SQL_STRUCTURE["accounts"] = {
       storeServer = true,
       autoSave = true
     }
+  },
+  lastonline = {
+    datatype = "BIGINT",
+    default = 0,
+    custom = {
+      storeServer = true,
+      autoSave = true
+    }
   }
 }
 

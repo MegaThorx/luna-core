@@ -1,5 +1,5 @@
 Account = {}
--- TODO move this to the sql structure....
+Account.timers = {}
 
 Account.Login = function(player, username, password, autologin)
   local handle = SQL.Query("SELECT * FROM accounts WHERE LCASE(username) = LCASE(?)", username)
@@ -64,10 +64,39 @@ Account.SetLoginData = function(player, data)
     end
   end
 
-  -- TODO move this
-  spawnPlayer(player, -1983 + math.random(-5, 5), 138 + math.random(-5, 5), 28)
-  fadeCamera(player, true)
-  setCameraTarget(player, player)
+  if Account.timers[player] then
+    killTimer(Account.timers[player])
+  end
+
+  Account.timers[player] = setTimer(Account.IncresePlaytime, 60 * 1000, 1, player)
+
+  Player.Spawn(player)
+end
+
+Account.IncresePlaytime = function(player)
+  if isElement(player) then
+    ElementData.Set(player, "playtime", ElementData.Get(player, "playtime") + 1)
+    Account.SavePlayerData(player)
+    Account.timers[player] = setTimer(Account.IncresePlaytime, 60 * 1000, 1, player)
+  end
+end
+
+
+Account.SavePlayerData = function(player)
+
+  ElementData.Set(player, "lastonline", Time.GetTimestamp())
+  local query = "UPDATE accounts SET "
+  for k,v in pairs(SQL_STRUCTURE["accounts"]) do
+    if SQL_STRUCTURE["accounts"][k].custom and SQL_STRUCTURE["accounts"][k].custom.autoSave then
+      if query ~= "UPDATE accounts SET " then
+        query = query..", "
+      end
+      query = query..SQL.PrepareString(k.." = ?", ElementData.Get(player, k))
+    end
+  end
+  query = query.." WHERE id = ?"
+
+  SQL.Exec(query, ElementData.Get(player, "id"))
 end
 
 Account.Register = function(player, username, email, password, password2, rules)

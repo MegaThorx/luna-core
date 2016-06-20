@@ -10,6 +10,7 @@ addEventHandler("onClientResourceStart", resourceRoot, function()
   GUI.Init()
   Translations.Init()
   Radar.Init()
+  Models.Init()
 
   addEventHandler("onClientBrowserCreated", GUI.browser,
     function()

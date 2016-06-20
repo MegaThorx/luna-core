@@ -31,3 +31,5 @@ addEventHandler("onPlayerWasted", root, function(_, killer)
   fadeCamera(source, true)
   setCameraTarget(source, source)
 end)
+
+createObject(2942, -1985.166015625, 145.81533813477, 26.5875)
