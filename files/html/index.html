@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <link rel="stylesheet" href="http://mta/core/files/html/css/uikit.min.css" />
+  <script src="http://mta/core/files/html/js/jquery-3.0.0.min.js"></script>
+  <script src="http://mta/core/files/html/js/jquery.form.min.js"></script>
+  <script src="http://mta/core/files/html/js/uikit.min.js"></script>
+  <script src="http://mta/core/files/html/js/translate.js"></script>
+</head>
+<body>
+  <!-- This is the modal -->
+  <div id="register-window" class="uk-modal">
+    <div class="uk-modal-dialog" style="width: 230px;">
+      <form id="register" class="uk-form">
+
+        <legend class="translate">SIGN_UP</legend>
+        <form>
+          <input type="text" class="translate" name="username" placeholder="PH_USERNAME"><br>
+          <input type="email" class="translate" name="email" placeholder="PH_EMAIL"><br>
+          <input type="password" class="translate" name="password" placeholder="PH_PASSWORD"><br>
+          <input type="password" class="translate" name="password2" placeholder="PH_CONFIRM_PASSWORD"><br>
+          <label><input type="checkbox" class="translate" name="rules"> <span class="translate">I_ACCEPT</span> <a href="#"><span class="translate">RULES</span></a></label><br>
+          <input type="submit" class="translate uk-button uk-button-primary" value="REGISTER"><br>
+        </form>
+        <hr>
+        <a id="show-login"><span class="translate">HAS_ACCOUNT</span></a>
+      </form>
+    </div>
+  </div>
+  <div id="login-window" class="uk-modal">
+    <div class="uk-modal-dialog" style="width: 230px;">
+      <form id="login" class="uk-form">
+
+        <legend class="translate">SIGN_IN</legend>
+        <form>
+          <input type="text" class="translate" name="username" placeholder="PH_USERNAME"><br>
+          <input type="password" class="translate" name="password" placeholder="PH_PASSWORD"><br>
+          <label><input type="checkbox" class="translate" name="autologin"> <span class="translate">AUTOLOGIN</span></label><br>
+          <input type="submit" class="translate uk-button uk-button-primary" value="LOGIN"><br>
+        </form>
+        <hr>
+        <a id="show-register"><span class="translate">NO_ACCOUNT</span></a>
+      </form>
+    </div>
+  </div>
+  <script>
+  $("#register").on("submit", function(e){
+    e.preventDefault();
+    $("#register").ajaxSubmit({url: "http://mta/local/ajax.htm?register", type: 'post'})
+  });
+  $("#login").on("submit", function(e){
+    e.preventDefault();
+    $("#login").ajaxSubmit({url: "http://mta/local/ajax.htm?login", type: 'post'})
+  });
+
+  $("#show-login").on("click", function(e){
+    e.preventDefault();
+    UIkit.modal("#login-window").show();
+  });
+  $("#show-register").on("click", function(e){
+    e.preventDefault();
+    UIkit.modal("#register-window").show();
+  });
+
+  $(document).ready(function(){
+    UIkit.modal("#login-window").options.center = true;
+    UIkit.modal("#register-window").options.center = true;
+  });
+  </script>
+</body>
+</html>

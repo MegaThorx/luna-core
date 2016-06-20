@@ -1,0 +1,229 @@
+<meta>
+  <info author="MegaThorx" version="0.0.1" name="Open Reallife" type="gamemode" />
+
+  <!-- Shared -->
+  <script src="shared/config.lua" type="shared" cache="false"/>
+  <script src="shared/helpers/config.lua" type="shared" cache="false"/>
+  <script src="shared/helpers/time.lua" type="shared" cache="false"/>
+  <script src="shared/helpers/validator.lua" type="shared" cache="false"/>
+  <script src="shared/helpers/random.lua" type="shared" cache="false"/>
+  <script src="shared/helpers/html.lua" type="shared" cache="false"/>
+  <script src="shared/helpers/utils.lua" type="shared" cache="false"/>
+  <!-- End Shared -->
+
+  <!-- Server -->
+  <script src="server/config.lua" type="server" />
+  <script src="server/helpers/log.lua" type="server" />
+  <script src="server/helpers/elementdata.lua" type="server" />
+  <script src="server/helpers/sql.lua" type="server" />
+
+  <script src="server/sql/manager.lua" type="server" />
+  <script src="server/sql/structure.lua" type="server" />
+
+  <script src="server/events.lua" type="server" />
+  <script src="server/account.lua" type="server" />
+  <script src="server/main.lua" type="server" />
+  <!-- End Server -->
+
+  <!-- Client -->
+  <script src="client/helpers/cursor.lua" type="client" cache="false"/>
+
+  <script src="client/gui.lua" type="client" cache="false"/>
+  <script src="client/account.lua" type="client" cache="false"/>
+  <script src="client/translation.lua" type="client" cache="false"/>
+  <script src="client/radar.lua" type="client" cache="false"/>
+
+  <script src="client/main.lua" type="client" cache="false"/>
+  <!-- End Client -->
+
+  <!-- Files -->
+  <file src="files/html/css/uikit.min.css" />
+  <file src="files/html/css/uikit.gradient.min.css" />
+  <file src="files/html/css/uikit.almost-flat.min.css" />
+
+  <file src="files/html/css/components/accordion.almost-flat.min.css" />
+  <file src="files/html/css/components/accordion.gradient.min.css" />
+  <file src="files/html/css/components/accordion.min.css" />
+  <file src="files/html/css/components/autocomplete.almost-flat.min.css" />
+  <file src="files/html/css/components/autocomplete.gradient.min.css" />
+  <file src="files/html/css/components/autocomplete.min.css" />
+  <file src="files/html/css/components/datepicker.almost-flat.min.css" />
+  <file src="files/html/css/components/datepicker.gradient.min.css" />
+  <file src="files/html/css/components/datepicker.min.css" />
+  <file src="files/html/css/components/dotnav.almost-flat.min.css" />
+  <file src="files/html/css/components/dotnav.gradient.min.css" />
+  <file src="files/html/css/components/dotnav.min.css" />
+  <file src="files/html/css/components/form-advanced.almost-flat.min.css" />
+  <file src="files/html/css/components/form-advanced.gradient.min.css" />
+  <file src="files/html/css/components/form-advanced.min.css" />
+  <file src="files/html/css/components/form-file.almost-flat.min.css" />
+  <file src="files/html/css/components/form-file.gradient.min.css" />
+  <file src="files/html/css/components/form-password.almost-flat.min.css" />
+  <file src="files/html/css/components/form-password.gradient.min.css" />
+  <file src="files/html/css/components/form-password.min.css" />
+  <file src="files/html/css/components/form-select.almost-flat.min.css" />
+  <file src="files/html/css/components/form-select.gradient.min.css" />
+  <file src="files/html/css/components/form-select.min.css" />
+  <file src="files/html/css/components/htmleditor.almost-flat.min.css" />
+  <file src="files/html/css/components/htmleditor.gradient.min.css" />
+  <file src="files/html/css/components/htmleditor.min.css" />
+  <file src="files/html/css/components/nestable.almost-flat.min.css" />
+  <file src="files/html/css/components/nestable.gradient.min.css" />
+  <file src="files/html/css/components/nestable.min.css" />
+  <file src="files/html/css/components/notify.almost-flat.min.css" />
+  <file src="files/html/css/components/notify.gradient.min.css" />
+  <file src="files/html/css/components/notify.min.css" />
+  <file src="files/html/css/components/placeholder.almost-flat.min.css" />
+  <file src="files/html/css/components/placeholder.gradient.min.css" />
+  <file src="files/html/css/components/placeholder.min.css" />
+  <file src="files/html/css/components/progress.almost-flat.min.css" />
+  <file src="files/html/css/components/progress.gradient.min.css" />
+  <file src="files/html/css/components/progress.min.css" />
+  <file src="files/html/css/components/search.almost-flat.min.css" />
+  <file src="files/html/css/components/search.gradient.min.css" />
+  <file src="files/html/css/components/search.min.css" />
+  <file src="files/html/css/components/slider.almost-flat.min.css" />
+  <file src="files/html/css/components/slider.gradient.min.css" />
+  <file src="files/html/css/components/slider.min.css" />
+  <file src="files/html/css/components/slideshow.almost-flat.min.css" />
+  <file src="files/html/css/components/slideshow.gradient.min.css" />
+  <file src="files/html/css/components/slideshow.min.css" />
+  <file src="files/html/css/components/sortable.almost-flat.min.css" />
+  <file src="files/html/css/components/sortable.gradient.min.css" />
+  <file src="files/html/css/components/sortable.min.css" />
+  <file src="files/html/css/components/sticky.almost-flat.min.css" />
+  <file src="files/html/css/components/sticky.gradient.min.css" />
+  <file src="files/html/css/components/sticky.min.css" />
+  <file src="files/html/css/components/tooltip.almost-flat.min.css" />
+  <file src="files/html/css/components/tooltip.gradient.min.css" />
+  <file src="files/html/css/components/tooltip.min.css" />
+  <file src="files/html/css/components/upload.almost-flat.min.css" />
+  <file src="files/html/css/components/upload.gradient.min.css" />
+  <file src="files/html/css/components/upload.min.css" />
+
+  <file src="files/html/js/uikit.min.js" />
+  <file src="files/html/js/translate.js" />
+  <file src="files/html/js/jquery-3.0.0.min.js" />
+  <file src="files/html/js/jquery.form.min.js" />
+
+  <file src="files/html/js/components/accordion.min.js" />
+  <file src="files/html/js/components/autocomplete.min.js" />
+  <file src="files/html/js/components/datepicker.min.js" />
+  <file src="files/html/js/components/form-password.min.js" />
+  <file src="files/html/js/components/form-select.min.js" />
+  <file src="files/html/js/components/grid.min.js" />
+  <file src="files/html/js/components/grid-parallax.min.js" />
+  <file src="files/html/js/components/htmleditor.min.js" />
+  <file src="files/html/js/components/lightbox.min.js" />
+  <file src="files/html/js/components/nestable.min.js" />
+  <file src="files/html/js/components/notify.min.js" />
+  <file src="files/html/js/components/pagination.min.js" />
+  <file src="files/html/js/components/parallax.min.js" />
+  <file src="files/html/js/components/search.min.js" />
+  <file src="files/html/js/components/slider.min.js" />
+  <file src="files/html/js/components/slideset.min.js" />
+  <file src="files/html/js/components/sortable.min.js" />
+  <file src="files/html/js/components/sticky.min.js" />
+  <file src="files/html/js/components/timepicker.min.js" />
+  <file src="files/html/js/components/tooltip.min.js" />
+  <file src="files/html/js/components/upload.min.js" />
+
+  <file src="files/html/js/core/core.min.js" />
+  <file src="files/html/js/core/alert.min.js" />
+  <file src="files/html/js/core/button.min.js" />
+  <file src="files/html/js/core/cover.min.js" />
+  <file src="files/html/js/core/dropdown.min.js" />
+  <file src="files/html/js/core/grid.min.js" />
+  <file src="files/html/js/core/modal.min.js" />
+  <file src="files/html/js/core/nav.min.js" />
+  <file src="files/html/js/core/offcanvas.min.js" />
+  <file src="files/html/js/core/scrollspy.min.js" />
+  <file src="files/html/js/core/smooth-scroll.min.js" />
+  <file src="files/html/js/core/switcher.min.js" />
+  <file src="files/html/js/core/tab.min.js" />
+  <file src="files/html/js/core/toggle.min.js" />
+  <file src="files/html/js/core/touch.min.js" />
+  <file src="files/html/js/core/utility.min.js" />
+
+  <file src="files/html/fonts/FontAwesome.otf" />
+  <file src="files/html/fonts/fontawesome-webfont.ttf" />
+  <file src="files/html/fonts/fontawesome-webfont.woff" />
+  <file src="files/html/fonts/fontawesome-webfont.woff2" />
+
+  <file src="files/html/index.html" />
+
+  <file src="files/translations/de.ini" />
+
+  <file src="files/images/radar/blip.png" />
+  <file src="files/images/radar/blip_down.png" />
+  <file src="files/images/radar/blip_up.png" />
+  <file src="files/images/radar/player.png" />
+  <file src="files/images/radar/radar_map.jpg" />
+  <file src="files/images/radar/blips/0.png" />
+  <file src="files/images/radar/blips/1.png" />
+  <file src="files/images/radar/blips/2.png" />
+  <file src="files/images/radar/blips/3.png" />
+  <file src="files/images/radar/blips/4.png" />
+  <file src="files/images/radar/blips/5.png" />
+  <file src="files/images/radar/blips/6.png" />
+  <file src="files/images/radar/blips/7.png" />
+  <file src="files/images/radar/blips/8.png" />
+  <file src="files/images/radar/blips/9.png" />
+  <file src="files/images/radar/blips/10.png" />
+  <file src="files/images/radar/blips/11.png" />
+  <file src="files/images/radar/blips/12.png" />
+  <file src="files/images/radar/blips/13.png" />
+  <file src="files/images/radar/blips/14.png" />
+  <file src="files/images/radar/blips/15.png" />
+  <file src="files/images/radar/blips/16.png" />
+  <file src="files/images/radar/blips/17.png" />
+  <file src="files/images/radar/blips/18.png" />
+  <file src="files/images/radar/blips/19.png" />
+  <file src="files/images/radar/blips/20.png" />
+  <file src="files/images/radar/blips/21.png" />
+  <file src="files/images/radar/blips/22.png" />
+  <file src="files/images/radar/blips/23.png" />
+  <file src="files/images/radar/blips/24.png" />
+  <file src="files/images/radar/blips/25.png" />
+  <file src="files/images/radar/blips/26.png" />
+  <file src="files/images/radar/blips/27.png" />
+  <file src="files/images/radar/blips/28.png" />
+  <file src="files/images/radar/blips/29.png" />
+  <file src="files/images/radar/blips/30.png" />
+  <file src="files/images/radar/blips/31.png" />
+  <file src="files/images/radar/blips/32.png" />
+  <file src="files/images/radar/blips/33.png" />
+  <file src="files/images/radar/blips/34.png" />
+  <file src="files/images/radar/blips/35.png" />
+  <file src="files/images/radar/blips/36.png" />
+  <file src="files/images/radar/blips/37.png" />
+  <file src="files/images/radar/blips/38.png" />
+  <file src="files/images/radar/blips/39.png" />
+  <file src="files/images/radar/blips/40.png" />
+  <file src="files/images/radar/blips/41.png" />
+  <file src="files/images/radar/blips/42.png" />
+  <file src="files/images/radar/blips/43.png" />
+  <file src="files/images/radar/blips/44.png" />
+  <file src="files/images/radar/blips/45.png" />
+  <file src="files/images/radar/blips/46.png" />
+  <file src="files/images/radar/blips/47.png" />
+  <file src="files/images/radar/blips/48.png" />
+  <file src="files/images/radar/blips/49.png" />
+  <file src="files/images/radar/blips/50.png" />
+  <file src="files/images/radar/blips/51.png" />
+  <file src="files/images/radar/blips/52.png" />
+  <file src="files/images/radar/blips/52.png" />
+  <file src="files/images/radar/blips/53.png" />
+  <file src="files/images/radar/blips/54.png" />
+  <file src="files/images/radar/blips/55.png" />
+  <file src="files/images/radar/blips/56.png" />
+  <file src="files/images/radar/blips/57.png" />
+  <file src="files/images/radar/blips/58.png" />
+  <file src="files/images/radar/blips/59.png" />
+  <file src="files/images/radar/blips/60.png" />
+  <file src="files/images/radar/blips/61.png" />
+  <file src="files/images/radar/blips/62.png" />
+  <file src="files/images/radar/blips/63.png" />
+  <file src="files/images/radar/blips/64.png" />
+  <!-- End Files -->
+</meta>
