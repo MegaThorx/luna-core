@@ -1,5 +1,6 @@
 <meta>
   <info author="MegaThorx" version="0.0.1" name="Open Reallife" type="gamemode" />
+  <min_mta_version client="1.5.2" server="1.5.2" />
 
   <!-- Shared -->
   <script src="shared/config.lua" type="shared" cache="false"/>
@@ -39,6 +40,8 @@
   <script src="client/hud.lua" type="client" cache="false"/>
   <script src="client/binds.lua" type="client" cache="false"/>
   <script src="client/scoreboard.lua" type="client" cache="false"/>
+
+  <script src="client/nonsense.lua" type="client" cache="false"/>
 
   <script src="client/main.lua" type="client" cache="false"/>
   <!-- End Client -->
@@ -216,7 +219,6 @@
   <file src="files/images/radar/blips/49.png" />
   <file src="files/images/radar/blips/50.png" />
   <file src="files/images/radar/blips/51.png" />
-  <file src="files/images/radar/blips/52.png" />
   <file src="files/images/radar/blips/52.png" />
   <file src="files/images/radar/blips/53.png" />
   <file src="files/images/radar/blips/54.png" />

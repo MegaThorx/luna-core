@@ -9,3 +9,6 @@ _CONFIG["db.port"] = "3306"
 _CONFIG["db.autoreconnect"] = true
 _CONFIG["db.dbname"] = "luna_reallife"
 _CONFIG["db.charset"] = "utf8"
+_CONFIG["bank.cacheRefreshTime"] = 15 * 60 * 1000-- Time after it refreshes the bank types in ms
+_CONFIG["bank.transactionFeed"] = 30
+_CONFIG["bank.transactionProcesserCheckTime"] = 60 * 1000

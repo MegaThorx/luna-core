@@ -109,3 +109,42 @@ SQL_STRUCTURE["vehicles"] = {
     notnull = true
   }
 }
+
+-- TABLE bank_types
+SQL_STRUCTURE["bank_types"] = {
+  id = {
+    primarykey = true,
+    datatype = "INT",
+    notnull = true,
+    autoincrement = true
+  },
+  name = {
+    datatype = "VARCHAR",
+    length = 64
+  },
+  transactionProcessingTime = {
+    datatype = "INT",
+    notnull = true,
+    default = 0
+  },
+  haveInterest = {
+    datatype = "INT",
+    notnull = true,
+    default = 0
+  },
+  interest = {
+    datatype = "INT",
+    notnull = true,
+    default = 0
+  },
+  overdraft = {
+    datatype = "INT",
+    notnull = true,
+    default = 0
+  },
+  canReceiveDirectPayments = {
+    datatype = "INT",
+    notnull = true,
+    default = 1
+  }
+}
