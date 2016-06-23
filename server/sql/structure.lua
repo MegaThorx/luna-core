@@ -148,3 +148,41 @@ SQL_STRUCTURE["bank_types"] = {
     default = 1
   }
 }
+
+-- TABLE bank_transactions
+SQL_STRUCTURE["bank_transactions"] = {
+  id = {
+    primarykey = true,
+    datatype = "INT",
+    notnull = true,
+    autoincrement = true
+  },
+  from = {
+    datatype = "INT",
+    notnull = true
+  },
+  to = {
+    datatype = "INT",
+    notnull = true
+  },
+  amount = {
+    datatype = "BIGINT",
+    notnull = true
+  },
+  reason = {
+    datatype = "VARCHAR",
+    length = 256
+  },
+  creationTime = {
+    datatype = "INT",
+    notnull = true
+  },
+  processingTime = {
+    datatype = "INT",
+    notnull = true
+  },
+  state = {
+    datatype = "INT",
+    default = 0
+  }
+}

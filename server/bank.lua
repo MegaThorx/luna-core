@@ -7,7 +7,8 @@ Bank.Init = function()
 end
 
 Bank.ProcessTransactions = function()
-
+  local handle = SQL.Query("SELECT * FROM bank_transactions WHERE state = 0")
+  local result = SQL.Poll(handle, -1)
 end
 
 Bank.CreateAccount = function(player, typ)

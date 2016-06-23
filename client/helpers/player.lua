@@ -24,6 +24,27 @@ Player.GetPlaytime = function(player)
   end
 end
 
+Player.GetSocialState = function(player)
+  return "Burger"
+end
+
+Player.GetPhoneNumber = function(player)
+  return "123456"
+end
+
+Player.GetFactionName = function(player)
+  return "Zivilist"
+end
+
+Player.GetPing = function(player)
+  return getPlayerPing(player)
+end
+
+Player.GetPlaytimeFormated = function(player)
+  return Time.FormatPlaytime(Player.GetPlaytime(player))
+end
+
+
 Player.GetMoney = function(player)
   if player then
     return getElementData(player, "money")
