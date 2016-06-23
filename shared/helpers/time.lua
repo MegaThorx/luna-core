@@ -49,6 +49,27 @@ Time.GetTime = function()
   return hour..":"..minute..":"..seconds
 end
 
+Time.GetTimeWithoutSeconds = function()
+	local time = getRealTime()
+  local hour = time.hour
+  local minute = time.minute
+
+  if hour < 10 then hour = "0"..hour end
+  if minute < 10 then minute = "0"..minute end
+
+  return hour..":"..minute
+end
+
+Time.FormatPlaytime = function(playtime)
+  if type(playtime) ~= "number" then return end
+
+  local hour = math.floor(playtime / 60)
+  local minute = playtime - hour * 60
+
+  if minute < 10 then minute = "0"..minute end
+
+  return hour..":"..minute
+end
 
 Time.GetRealTime = function()
 	return getRealTime()

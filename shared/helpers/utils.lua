@@ -139,3 +139,19 @@ Utils.GetElementSpeed = function(theElement, unit)
     -- Return the speed by calculating the length of the velocity vector, after converting the velocity to the specified unit
     return (Vector3(getElementVelocity(theElement)) * mult).length
 end
+
+Utils.SetElementSpeed = function(element, unit, speed)
+	if (unit == nil) then unit = 0 end
+	if (speed == nil) then speed = 0 end
+	speed = tonumber(speed)
+	local acSpeed = getElementSpeed(element, unit)
+	if (acSpeed~=false) then -- if true - element is valid, no need to check again
+		local diff = speed/acSpeed
+		if diff ~= diff then return end -- if the number is a 'NaN' return end.
+		local x,y,z = getElementVelocity(element)
+		setElementVelocity(element,x*diff,y*diff,z*diff)
+		return true
+	end
+
+	return false
+end

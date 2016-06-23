@@ -9,6 +9,7 @@
   <script src="shared/helpers/random.lua" type="shared" cache="false"/>
   <script src="shared/helpers/html.lua" type="shared" cache="false"/>
   <script src="shared/helpers/utils.lua" type="shared" cache="false"/>
+  <script src="shared/helpers/debug.lua" type="shared" cache="false"/>
   <!-- End Shared -->
 
   <!-- Server -->
@@ -28,12 +29,16 @@
 
   <!-- Client -->
   <script src="client/helpers/cursor.lua" type="client" cache="false"/>
+  <script src="client/helpers/player.lua" type="client" cache="false"/>
 
   <script src="client/gui.lua" type="client" cache="false"/>
   <script src="client/account.lua" type="client" cache="false"/>
   <script src="client/translation.lua" type="client" cache="false"/>
   <script src="client/radar.lua" type="client" cache="false"/>
   <script src="client/models.lua" type="client" cache="false"/>
+  <script src="client/hud.lua" type="client" cache="false"/>
+  <script src="client/binds.lua" type="client" cache="false"/>
+  <script src="client/scoreboard.lua" type="client" cache="false"/>
 
   <script src="client/main.lua" type="client" cache="false"/>
   <!-- End Client -->
@@ -154,8 +159,6 @@
 
   <file src="files/html/index.html" />
 
-  <file src="files/translations/de.ini" />
-
   <file src="files/images/radar/blip.png" />
   <file src="files/images/radar/blip_down.png" />
   <file src="files/images/radar/blip_up.png" />
@@ -232,6 +235,11 @@
   <file src="files/models/atm/atm.col" />
   <file src="files/models/atm/atm.txd" />
   <file src="files/models/atm/atm.dff" />
+
+
+  <file src="files/translations/de.ini" />
+
+  <file src="files/binds.ini" />
 
 
 

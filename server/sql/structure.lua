@@ -45,6 +45,15 @@ SQL_STRUCTURE["accounts"] = {
     datatype = "VARCHAR",
     length = 32,
   },
+  adminlevel = {
+    datatype = "SMALLINT",
+    default = 0,
+    custom = {
+      storeClient = true,
+      storeServer = true,
+      autoSave = true
+    }
+  },
   wantedlevel = {
     datatype = "SMALLINT",
     default = 0,

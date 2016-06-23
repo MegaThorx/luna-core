@@ -9,3 +9,4 @@ _CONFIG["map"] = "GTA SA"
 _CONFIG["fpslimit"] = 60
 _CONFIG["blurlevel"] = 0
 _CONFIG["defaultlanguage"] = "de"
+_CONFIG["slots"] = 4096
