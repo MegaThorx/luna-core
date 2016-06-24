@@ -5,6 +5,7 @@ addEventHandler("onResourceStart", resourceRoot, function()
 
   SQL.Connect()
   SQL_MANAGER.Validate()
+  Bank.Init()
 end)
 
 addEventHandler("onResourceStop", resourceRoot, function()

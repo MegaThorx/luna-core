@@ -36,6 +36,10 @@ Player.GetFactionName = function(player)
   return "Zivilist"
 end
 
+Player.GetFaction = function(player)
+  return 0
+end
+
 Player.GetPing = function(player)
   return getPlayerPing(player)
 end

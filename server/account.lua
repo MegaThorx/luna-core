@@ -70,6 +70,7 @@ Account.SetLoginData = function(player, data)
 
   Account.timers[player] = setTimer(Account.IncresePlaytime, 60 * 1000, 1, player)
 
+  Account.CreateFirstBankAccount(player)
   Player.Spawn(player)
 end
 
@@ -136,6 +137,16 @@ Account.Register = function(player, username, email, password, password2, rules)
 
   SQL.Exec(sql, username, saltedPassword, email, salt, serial)
   return Account.Login(player, username, password)
+end
+
+Account.CreateFirstBankAccount = function(player)
+  local id = ElementData.Get(player, "id")
+
+  if not Bank.GetMainAccount(id) then
+    if Bank.CreateAccount(id, 1, 1) then
+      Bank.GiveMoney(Bank.GetMainAccount(id), Config.Get("bank.initialBalance"), "Startgeld")
+    end
+  end
 end
 
 addEvent("tryLogin", true)

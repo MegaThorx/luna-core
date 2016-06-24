@@ -24,6 +24,7 @@
 
   <script src="server/events.lua" type="server" />
   <script src="server/player.lua" type="server" />
+  <script src="server/bank.lua" type="server" />
   <script src="server/account.lua" type="server" />
   <script src="server/main.lua" type="server" />
   <!-- End Server -->

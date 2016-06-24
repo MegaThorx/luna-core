@@ -64,7 +64,7 @@ Scoreboard.Draw = function()
   end
 
   local startOffset = 25
-  for _,player in pairs(getElementsByType ( "player" )) do
+  for _,player in ipairs(Scoreboard.GetPlayers()) do
     for k, v in pairs(Scoreboard.data)do
       local x, y = v.x-v.sx, v.y-v.sy
       local height = dxGetFontHeight(1 ,"default")
@@ -93,6 +93,20 @@ Scoreboard.ScrollDown = function()
 	if Scoreboard.scrollPos > pls-Scoreboard.maxPerSite+1 then Scoreboard.scrollPos = pls-Scoreboard.maxPerSite+1 end
 	if pls < Scoreboard.maxPerSite then Scoreboard.scrollPos = 1 end
 end
+
+
+Scoreboard.GetPlayers = function()
+	local players = getElementsByType ( "player" )
+	table.sort(players, function(b, a)
+		local fa = Player.GetFaction(a)
+		local fb = Player.GetFaction(b)
+		if not fa then fa = 0 end
+		if not fb then fb = 0 end
+		return fa > fb
+	end)
+	return players
+end
+
 
 Scoreboard.GetPlayersOnline = function()
 	local players = #getElementsByType ( "player" )

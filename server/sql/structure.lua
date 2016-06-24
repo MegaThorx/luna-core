@@ -110,6 +110,40 @@ SQL_STRUCTURE["vehicles"] = {
   }
 }
 
+-- TABLE bank_accounts
+SQL_STRUCTURE["bank_accounts"] = {
+  id = {
+    primarykey = true,
+    datatype = "INT",
+    notnull = true,
+    autoincrement = true
+  },
+  accountNumber = {
+    datatype = "INT",
+    notnull = true,
+  },
+  owner = {
+    datatype = "INT",
+    notnull = true,
+  },
+  balance = {
+    datatype = "BIGINT",
+    default = 0
+  },
+  typ = {
+    datatype = "INT",
+    notnull = true,
+  },
+  default = {
+    datatype = "INT",
+    default = 0
+  },
+  closed = {
+    datatype = "INT",
+    default = 0
+  }
+}
+
 -- TABLE bank_types
 SQL_STRUCTURE["bank_types"] = {
   id = {
