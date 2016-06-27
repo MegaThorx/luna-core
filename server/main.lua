@@ -5,11 +5,14 @@ addEventHandler("onResourceStart", resourceRoot, function()
 
   SQL.Connect()
   SQL_MANAGER.Validate()
+  Translations.Init()
   Bank.Init()
+  setFPSLimit(60)
 end)
 
 addEventHandler("onResourceStop", resourceRoot, function()
   for k,v in pairs(getElementsByType("player")) do
+    Account.SavePlayerData(v)
     for i,_ in pairs(getAllElementData(v)) do
       setElementData(v, i, false)
     end
@@ -32,5 +35,3 @@ addEventHandler("onPlayerWasted", root, function(_, killer)
   fadeCamera(source, true)
   setCameraTarget(source, source)
 end)
-
-createObject(2942, -1985.166015625, 145.81533813477, 26.5875)

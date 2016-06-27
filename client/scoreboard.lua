@@ -21,7 +21,8 @@ Scoreboard.Init = function()
 
   Scoreboard.CalculatePositions()
   Scoreboard.renderTarget = dxCreateRenderTarget(Scoreboard.size.x, Scoreboard.size.y, true)
-
+  Scoreboard.renderTargetBg = dxCreateRenderTarget(Scoreboard.size.x, Scoreboard.size.y, true)
+  Scoreboard.DrawBackground()
   addEventHandler("onClientRender", root, Scoreboard.Draw)
 end
 
@@ -45,11 +46,9 @@ Scoreboard.CalculatePositions = function()
 
 end
 
-Scoreboard.Draw = function()
-  if Scoreboard.isHidden then return end
-  local sX, sY = guiGetScreenSize()
+Scoreboard.DrawBackground = function()
 
-  dxSetRenderTarget(Scoreboard.renderTarget, true)
+  dxSetRenderTarget(Scoreboard.renderTargetBg, true)
   dxDrawRectangle( 0, 0, Scoreboard.size.x, Scoreboard.size.y, tocolor(50,50,50,255) )
 
   for k, v in pairs(Scoreboard.data)do
@@ -57,11 +56,21 @@ Scoreboard.Draw = function()
   end
 
   for k, v in pairs(Scoreboard.data)do
-  	local x, y = v.x-v.sx, v.y-v.sy
-  	local height = dxGetFontHeight(1.2 ,"default")
-  	y = y - height
-  	dxDrawText(Translations.Translate(v.label), v.sx+x/2, v.sy+y/2, v.sx+x/2, v.sy+y/2, tocolor(50,200,50,255), 1.2, "default", "left", "top", false)
+    local x, y = v.x-v.sx, v.y-v.sy
+    local height = dxGetFontHeight(1.2 ,"default")
+    y = y - height
+    dxDrawText(Translations.Translate(v.label), v.sx+x/2, v.sy+y/2, v.sx+x/2, v.sy+y/2, tocolor(50,200,50,255), 1.2, "default", "left", "top", false)
   end
+  dxSetRenderTarget()
+
+end
+
+Scoreboard.Draw = function()
+  if Scoreboard.isHidden then return end
+  local sX, sY = guiGetScreenSize()
+
+  dxSetRenderTarget(Scoreboard.renderTarget, true)
+  dxDrawImage(0, 0, Scoreboard.size.x, Scoreboard.size.y, Scoreboard.renderTargetBg)
 
   local startOffset = 25
   for _,player in ipairs(Scoreboard.GetPlayers()) do
@@ -69,13 +78,13 @@ Scoreboard.Draw = function()
       local x, y = v.x-v.sx, v.y-v.sy
       local height = dxGetFontHeight(1 ,"default")
       y = y - height
-      dxDrawText(tostring(v.func(player)), v.sx+x/2, v.sy+y/2 + startOffset, v.sx+x/2, v.sy+y/2 + startOffset, tocolor(50,200,50,255), 1, "default", "left", "top", false)
+      local text = v.func(player)
+      if text then
+        dxDrawText(tostring(text), v.sx+x/2, v.sy+y/2 + startOffset, v.sx+x/2, v.sy+y/2 + startOffset, tocolor(50,200,50,255), 1, "default", "left", "top", false)
+      end
     end
+    startOffset = startOffset + 15
   end
-
-
-
-
   dxSetRenderTarget()
 
   dxDrawImage(sX/2 - Scoreboard.size.x/2, sY/2 - Scoreboard.size.y/2, Scoreboard.size.x, Scoreboard.size.y, Scoreboard.renderTarget, 0, 0, 0, tocolor(255, 255, 255, 200))

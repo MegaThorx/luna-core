@@ -1,10 +1,21 @@
 Translations = {}
 Translations.texts = {}
+Translations.language = ""
 
 Translations.Init = function()
+  Translations.language = Config.Get("defaultlanguage")
   Translations.LoadTranslation(Config.Get("defaultlanguage"))
   GUI.AddAjaxGetHandler("translate", Translations.Translate)
 end
+
+Translations.GetCurrentLanguage = function()
+  return Translations.language
+end
+
+Translations.GetCurrencyFormat = function()
+  return ","
+end
+
 
 
 Translations.LoadTranslation = function(language)
@@ -31,5 +42,9 @@ Translations.LoadTranslation = function(language)
 end
 
 Translations.Translate = function(pharse)
-  return Translations.texts[pharse]
+  if Translations.texts[pharse] then
+    return Translations.texts[pharse]
+  else
+    return pharse
+  end
 end

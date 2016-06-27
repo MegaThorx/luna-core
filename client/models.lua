@@ -1,6 +1,6 @@
 Models = {}
 Models.replace = {
-  [2942] = {dff = "files/models/atm/atm.dff", txd = "files/models/atm/atm.txd", col = "files/models/atm/atm.col"}
+  --[2942] = {dff = "files/models/atm/atm.dff", txd = "files/models/atm/atm.txd", col = "files/models/atm/atm.col"}
 }
 
 Models.Init = function()

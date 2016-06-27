@@ -10,3 +10,7 @@ _CONFIG["fpslimit"] = 60
 _CONFIG["blurlevel"] = 0
 _CONFIG["defaultlanguage"] = "de"
 _CONFIG["slots"] = 4096
+_CONFIG["languages"] = {
+  "de",
+  "en"
+}

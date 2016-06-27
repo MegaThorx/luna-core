@@ -73,7 +73,7 @@ SQL_STRUCTURE["accounts"] = {
     }
   },
   money = {
-    datatype = "BIGINT",
+    datatype = "DOUBLE",
     default = 0,
     custom = {
       storeClient = true,
@@ -86,6 +86,16 @@ SQL_STRUCTURE["accounts"] = {
     default = 0,
     custom = {
       storeServer = true,
+      autoSave = true
+    }
+  },
+  language = {
+    datatype = "VARCHAR",
+    length = 5,
+    default = Config.Get("defaultlanguage"),
+    custom = {
+      storeServer = true,
+      storeClient = true,
       autoSave = true
     }
   }
@@ -127,7 +137,7 @@ SQL_STRUCTURE["bank_accounts"] = {
     notnull = true,
   },
   balance = {
-    datatype = "BIGINT",
+    datatype = "DOUBLE",
     default = 0
   },
   typ = {

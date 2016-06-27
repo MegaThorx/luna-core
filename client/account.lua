@@ -10,7 +10,7 @@ GUI.AddAjaxGetHandler("login", function(k, post)
   if post["autologin"] then
     autologin = true
   end
-  
+
   if(username == "" or password == "")then
     -- TODO add errors
   else
@@ -48,18 +48,21 @@ addEventHandler("showAccountRegister", root, function()
   GUI.ExecuteJavascript('UIkit.modal("#register-window").show();')
 
   Cursor.Show()
+  Cursor.BlockBinds()
 end)
 
 addEventHandler("showAccountLogin", root, function()
   GUI.ExecuteJavascript('UIkit.modal("#login-window").show();')
 
   Cursor.Show()
+  Cursor.BlockBinds()
 end)
 
 
 addEventHandler("successAccountLogin", root, function()
   isBlocked = false
   Cursor.Hide()
+  Cursor.UnblockBinds()
   GUI.ExecuteJavascript('UIkit.modal("#login-window").hide();')
   GUI.ExecuteJavascript('UIkit.modal("#register-window").hide();')
 
@@ -70,6 +73,9 @@ addEventHandler("successAccountLogin", root, function()
       Cursor.Hide()
     end
   end)
+
+  GUI.LoadPage("gui")
+
 end)
 
 addEventHandler("setAutologin", root, function(token)

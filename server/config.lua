@@ -13,3 +13,7 @@ _CONFIG["bank.cacheRefreshTime"] = 15 * 60 * 1000-- Time after it refreshes the 
 _CONFIG["bank.transactionFeed"] = 30
 _CONFIG["bank.transactionProcesserCheckTime"] = 60 * 1000
 _CONFIG["bank.initialBalance"] = 2500
+_CONFIG["payday.premium.10"] = 5000
+_CONFIG["payday.premium.100"] = 10000
+_CONFIG["payday.premium.1000"] = 25000
+_CONFIG["payday.interest.max"] = 20000

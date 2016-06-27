@@ -19,11 +19,11 @@ Account.Login = function(player, username, password, autologin)
     triggerClientEvent(player, "successAccountLogin", player)
 
     if autologin then
-        local token = sha256(result["username"]..Random.GenerateString(math.random(2, 10))..getPlayerSerial(player)..Random.GenerateString(math.random(2, 10)))
+      local token = sha256(result["username"]..Random.GenerateString(math.random(2, 10))..getPlayerSerial(player)..Random.GenerateString(math.random(2, 10)))
 
-        SQL.Exec("UPDATE accounts SET autologin_token = ?, autologin_serial = ? WHERE id = ?", token, getPlayerSerial(player), result["id"])
+      SQL.Exec("UPDATE accounts SET autologin_token = ?, autologin_serial = ? WHERE id = ?", token, getPlayerSerial(player), result["id"])
 
-        triggerClientEvent(player, "setAutologin", player, token)
+      triggerClientEvent(player, "setAutologin", player, token)
     end
 
     return true
@@ -45,8 +45,8 @@ Account.Autologin = function(player, autologin)
 
   if(getPlayerSerial(player) == result["autologin_serial"])then
 
-      Account.SetLoginData(player, result)
-      triggerClientEvent(player, "successAccountLogin", player)
+    Account.SetLoginData(player, result)
+    triggerClientEvent(player, "successAccountLogin", player)
     return true
   else
     triggerClientEvent(player, "removeAutologin", player)
@@ -68,20 +68,66 @@ Account.SetLoginData = function(player, data)
     killTimer(Account.timers[player])
   end
 
-  Account.timers[player] = setTimer(Account.IncresePlaytime, 60 * 1000, 1, player)
+  Account.timers[player] = setTimer(Account.IncreasePlaytime, 60 * 1000, 1, player)
 
   Account.CreateFirstBankAccount(player)
   Player.Spawn(player)
 end
 
-Account.IncresePlaytime = function(player)
+Account.IncreasePlaytime = function(player)
   if isElement(player) then
-    ElementData.Set(player, "playtime", ElementData.Get(player, "playtime") + 1)
+    ElementData.Set(player, "playtime", ElementData.Get(player, "playtime") + 1, true)
+    local playtime = ElementData.Get(player, "playtime")
+
+    if playtime % 60 == 0 then
+      Account.ProcessPayday(player)
+    end
+
     Account.SavePlayerData(player)
-    Account.timers[player] = setTimer(Account.IncresePlaytime, 60 * 1000, 1, player)
+    Account.timers[player] = setTimer(Account.IncreasePlaytime, 60 * 1000, 1, player)
   end
 end
 
+Account.ProcessPayday = function(player)
+  local playtime = ElementData.Get(player, "playtime")
+  local id = ElementData.Get(player, "id")
+  local premium = 0
+
+  if playtime % (60 * 1000) == 0 then
+    premium = Config.Get("payday.premium.1000")
+  elseif playtime % (60 * 100) == 0 then
+    premium = Config.Get("payday.premium.100")
+  elseif playtime % (60 * 10) == 0 then
+    premium = Config.Get("payday.premium.10")
+  end
+  local accountNumber = Bank.GetMainAccount(id)
+
+  if accountNumber then
+    local balance = Bank.GetBalance(accountNumber)
+    local interest = Bank.GetHaveInterest(accountNumber)
+    interest = interest / 1000
+    local interestIncome = math.floor(balance * interest * 100) / 100
+
+    if interestIncome > Config.Get("payday.interest.max") then
+      interestIncome = Config.Get("payday.interest.max")
+    end
+
+    outputChatBox("Zahltag", player, 0, 125, 0)
+    outputChatBox("-----------------------", player, 0, 125, 0)
+    Bank.GiveMoney(accountNumber, interestIncome, "Zinsen")
+    outputChatBox("Zinsen: € "..tostring(interestIncome), player, 0, 125, 0)
+
+    if premium ~= 0 then
+      Bank.GiveMoney(accountNumber, premium, "Zusatzzahlung")
+      outputChatBox("Zusatzzahlung: € "..tostring(premium), player, 0, 125, 0)
+    end
+    outputChatBox("-----------------------", player, 0, 125, 0)
+
+
+  else
+    Debug.Error("Can't find a bank account for player %s", id)
+  end
+end
 
 Account.SavePlayerData = function(player)
 

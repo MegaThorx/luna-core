@@ -5,12 +5,15 @@
   <!-- Shared -->
   <script src="shared/config.lua" type="shared" cache="false"/>
   <script src="shared/helpers/config.lua" type="shared" cache="false"/>
+  <script src="shared/helpers/locations.lua" type="shared" cache="false"/>
   <script src="shared/helpers/time.lua" type="shared" cache="false"/>
   <script src="shared/helpers/validator.lua" type="shared" cache="false"/>
   <script src="shared/helpers/random.lua" type="shared" cache="false"/>
   <script src="shared/helpers/html.lua" type="shared" cache="false"/>
   <script src="shared/helpers/utils.lua" type="shared" cache="false"/>
   <script src="shared/helpers/debug.lua" type="shared" cache="false"/>
+  <script src="shared/helpers/player.lua" type="shared" cache="false"/>
+  <script src="shared/helpers/formatting.lua" type="shared" cache="false"/>
   <!-- End Shared -->
 
   <!-- Server -->
@@ -18,10 +21,12 @@
   <script src="server/helpers/log.lua" type="server" />
   <script src="server/helpers/elementdata.lua" type="server" />
   <script src="server/helpers/sql.lua" type="server" />
+  <script src="server/helpers/player.lua" type="server" />
 
   <script src="server/sql/manager.lua" type="server" />
   <script src="server/sql/structure.lua" type="server" />
 
+  <script src="server/translations.lua" type="server" />
   <script src="server/events.lua" type="server" />
   <script src="server/player.lua" type="server" />
   <script src="server/bank.lua" type="server" />
@@ -41,6 +46,7 @@
   <script src="client/hud.lua" type="client" cache="false"/>
   <script src="client/binds.lua" type="client" cache="false"/>
   <script src="client/scoreboard.lua" type="client" cache="false"/>
+  <script src="client/bank.lua" type="client" cache="false"/>
 
   <script src="client/nonsense.lua" type="client" cache="false"/>
 
@@ -162,6 +168,7 @@
   <file src="files/html/fonts/fontawesome-webfont.woff2" />
 
   <file src="files/html/index.html" />
+  <file src="files/html/gui.html" />
 
   <file src="files/images/radar/blip.png" />
   <file src="files/images/radar/blip_down.png" />

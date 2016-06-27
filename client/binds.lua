@@ -11,7 +11,6 @@ Binds.Init = function()
   Binds.LoadBinds()
 end
 
-
 Binds.LoadBinds = function()
   Binds.keys = {}
 

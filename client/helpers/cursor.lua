@@ -14,6 +14,14 @@ Cursor.Hide = function()
   focusBrowser(nil)
 end
 
+Cursor.BlockBinds = function()
+  guiSetInputEnabled(true)
+end
+
+Cursor.UnblockBinds = function()
+  guiSetInputEnabled(false)
+end
+
 Cursor.IsShowing = function()
   return isCursorShowing()
 end

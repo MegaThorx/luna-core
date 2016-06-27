@@ -1,5 +1,6 @@
 GUI = {}
 GUI.handlers = {}
+GUI.closeHandlers = {}
 GUI.isReady = false
 
 GUI.Init = function()
@@ -26,17 +27,29 @@ GUI.Init = function()
   	injectBrowserMouseMove ( GUI.browser , absoluteX , absoluteY )
   end  )
 
+  GUI.AddAjaxGetHandler("window", function(_, data)
+    if GUI.closeHandlers[data["window"]] then
+      return GUI.closeHandlers[data["window"]]()
+    end
+  end)
+
   return GUI.browser
 end
 
 GUI.InitRendering = function()
-  local rst = loadBrowserURL(GUI.browser, "http://mta/" .. getResourceName(getThisResource()) .. "/files/html/index.html")
+  loadBrowserURL(GUI.browser, "http://mta/" .. getResourceName(getThisResource()) .. "/files/html/index.html")
   if(Config.Get("browserdebugging") and getPlayerName(localPlayer) == "MegaThorx")then
     toggleBrowserDevTools(GUI.browser, true)
   end
   setBrowserAjaxHandler(GUI.browser, "ajax.htm", GUI.AjaxHandler)
   addEventHandler("onClientRender", root, GUI.Render)
 end
+
+
+GUI.LoadPage = function(page)
+  loadBrowserURL(GUI.browser, "http://mta/" .. getResourceName(getThisResource()) .. "/files/html/"..page..".html")
+end
+
 
 GUI.InitReady = function()
   GUI.isReady = true
@@ -73,6 +86,23 @@ end
 GUI.RemoveAjaxGetHandler = function(key)
     if GUI.handlers[key] then
       GUI.handlers[key] = nil
+      return true
+    end
+    return false
+end
+
+
+GUI.AddWindowCloseHandler = function(key, func)
+  if not GUI.closeHandlers[key] then
+    GUI.closeHandlers[key] = func
+    return true
+  end
+  return false
+end
+
+GUI.RemoveWindowCloseHandler = function(key)
+    if GUI.closeHandlers[key] then
+      GUI.closeHandlers[key] = nil
       return true
     end
     return false

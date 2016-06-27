@@ -31,22 +31,29 @@ Bank.ProcessTransaction = function(id)
       return true
     end
   end
+
+  return false
 end
 
 Bank.Transfer = function(playerId, fromAccount, toAccount, amount, reason)
   local balance = Bank.GetBalance(fromAccount)
   local transactionTime = Bank.GetTansactionProcessingTime(fromAccount)
   local transactionTimeTo = Bank.GetTansactionProcessingTime(toAccount)
+  local playerIdFrom = Bank.GetAccountOwner(fromAccount)
+  local playerIdTo = Bank.GetAccountOwner(toAccount)
+  local canReceive = Bank.CanReceiveDirectPayments(toAccount)
 
   if balance and transactionTime and transactionTimeTo and balance >= amount then
-    local handle = SQL.Query("UPDATE bank_accounts SET balance = balance - ? WHERE accountNumber = ?", amount, fromAccount)
-    local _, count = SQL.Poll(handle, -1)
-    if count == 1 then
-      local endTime = Time.GetTimestamp() + transactionTime + transactionTimeTo
-      local handle = SQL.Query("INSERT INTO bank_transactions (`from`, `to`, amount, reason, creationTime, processingTime) VALUES (?, ?, ?, ?, ?, ?)", fromAccount, toAccount, amount, reason, Time.GetTimestamp(), endTime)
+    if canReceive == 1 or playerIdFrom == playerIdTo then
+      local handle = SQL.Query("UPDATE bank_accounts SET balance = balance - ? WHERE accountNumber = ?", amount, fromAccount)
       local _, count = SQL.Poll(handle, -1)
       if count == 1 then
-        return true
+        local endTime = Time.GetTimestamp() + transactionTime + transactionTimeTo
+        local handle = SQL.Query("INSERT INTO bank_transactions (`from`, `to`, amount, reason, creationTime, processingTime) VALUES (?, ?, ?, ?, ?, ?)", fromAccount, toAccount, amount, reason, Time.GetTimestamp(), endTime)
+        local _, count = SQL.Poll(handle, -1)
+        if count == 1 then
+          return true
+        end
       end
     end
   end
@@ -55,6 +62,10 @@ Bank.Transfer = function(playerId, fromAccount, toAccount, amount, reason)
 end
 
 Bank.TakeMoney = function(accountNumber, amount, reason)
+  if amount < 0 or type(amount) ~= "number" then
+    return false
+  end
+
   local balance = Bank.GetBalance(accountNumber)
 
   if balance and balance >= amount then
@@ -64,7 +75,8 @@ Bank.TakeMoney = function(accountNumber, amount, reason)
       local handle = SQL.Query("INSERT INTO bank_transactions (`from`, `to`, amount, reason, creationTime, processingTime) VALUES (?, ?, ?, ?, ?, ?)", accountNumber, 0, amount, reason, Time.GetTimestamp(), 0)
       local _, count, id = SQL.Poll(handle, -1)
       if count == 1 then
-        return Bank.ProcessTransaction(id)
+        Bank.ProcessTransaction(id)
+        return true
       end
     end
   end
@@ -73,6 +85,10 @@ Bank.TakeMoney = function(accountNumber, amount, reason)
 end
 
 Bank.GiveMoney = function(accountNumber, amount, reason)
+  if amount < 0 or type(amount) ~= "number" then
+    return false
+  end
+
   local handle = SQL.Query("INSERT INTO bank_transactions (`from`, `to`, amount, reason, creationTime, processingTime) VALUES (?, ?, ?, ?, ?, ?)", 0, accountNumber, amount, reason, Time.GetTimestamp(), 0)
 
   local _, count, id = SQL.Poll(handle, -1)
@@ -96,7 +112,6 @@ Bank.CreateAccount = function(playerId, typ, default)
     return false
   end
 end
-
 
 Bank.GetNextAccountNumber = function()
   local handle = SQL.Query("SELECT accountNumber FROM bank_accounts ORDER BY accountNumber DESC LIMIT 1")
@@ -190,6 +205,19 @@ Bank.GetTansactionProcessingTime = function(accountNumber)
   return false
 end
 
+Bank.CanReceiveDirectPayments = function(accountNumber)
+  local accountType = Bank.GetAccountTyp(accountNumber)
+  if accountType then
+    local handle = SQL.Query("SELECT canReceiveDirectPayments FROM bank_types WHERE id = ?", accountType)
+    local result, count = SQL.Poll(handle, -1)
+
+    if result and count ~= 0 then
+      return result[1]["canReceiveDirectPayments"]
+    end
+  end
+  return false
+end
+
 Bank.GetCanReceiveDirectPayments = function(accountNumber)
   local accountType = Bank.GetAccountTyp(accountNumber)
   if accountType then
@@ -198,6 +226,19 @@ Bank.GetCanReceiveDirectPayments = function(accountNumber)
 
     if result and count ~= 0 then
       return result[1]["canReceiveDirectPayments"]
+    end
+  end
+  return false
+end
+
+Bank.GetHaveInterest = function(accountNumber)
+  local accountType = Bank.GetAccountTyp(accountNumber)
+  if accountType then
+    local handle = SQL.Query("SELECT haveInterest FROM bank_types WHERE id = ?", accountType)
+    local result, count = SQL.Poll(handle, -1)
+
+    if result and count ~= 0 then
+      return result[1]["haveInterest"]
     end
   end
   return false
@@ -227,3 +268,88 @@ Bank.GetAccountTypes = function(force)
 
   return Bank.bankTypesCache
 end
+
+
+
+-------------------------------------------------------------------
+
+addEvent("getBankAccounts", true)
+addEvent("getAccountTransactionFeed", true)
+addEvent("takeAccountMoney", true)
+addEvent("giveAccountMoney", true)
+addEvent("getAtmBalance", true)
+addEvent("takeAtmMoney", true)
+addEvent("giveAtmMoney", true)
+
+addEventHandler("takeAtmMoney", root, function(amount)
+  local id = ElementData.Get(client, "id")
+  local main = Bank.GetMainAccount(id)
+
+  if main then
+    local balance = Bank.GetBalance(main)
+    if Bank.TakeMoney(main, amount, "ATM") then
+      Player.GiveMoney(client, amount)
+      Bank.GetAtmBalance()
+    end
+  end
+end)
+
+addEventHandler("giveAtmMoney", root, function(amount)
+  local id = ElementData.Get(client, "id")
+  local main = Bank.GetMainAccount(id)
+  if main then
+    local balance = Player.GetMoney()
+    if Player.TakeMoney(client, amount) then
+      Bank.GiveMoney(main, amount, "ATM")
+
+      Bank.GetAtmBalance()
+    end
+  end
+end)
+
+addEventHandler("getAtmBalance", root, function()
+  Bank.GetAtmBalance()
+end)
+
+Bank.GetAtmBalance = function()
+    local id = ElementData.Get(client, "id")
+    local main = Bank.GetMainAccount(id)
+
+    if main then
+      local balance = Bank.GetBalance(main)
+      if balance then
+        triggerClientEvent(client, "setAtmBalance", client, balance)
+      end
+    end
+end
+
+addEventHandler("getBankAccounts", root, function()
+  local id = ElementData.Get(client, "id")
+
+  if id then
+    Bank.GetPlayerAccounts(id)
+  end
+end)
+
+addEventHandler("getAccountTransactionFeed", root, function(account, amount)
+  local id = ElementData.Get(client, "id")
+  local owner = Bank.GetAccountOwner(account)
+
+  if id and owner and owner == id then -- TODO add exeption for admins?
+    Bank.GetTransactionFeed(account, amount)
+  end
+end)
+
+
+addEventHandler("takeAccountMoney", root, function(account, amount)
+  local id = ElementData.Get(client, "id")
+  local owner = Bank.GetAccountOwner(account)
+
+
+end)
+
+addEventHandler("giveAccountMoney", root, function(account, amount)
+  local id = ElementData.Get(client, "id")
+  local owner = Bank.GetAccountOwner(account)
+
+end)

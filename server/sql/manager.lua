@@ -99,8 +99,15 @@ SQL_MANAGER.ValidateTable = function(name, structure)
             end
           else
             local pos = string.find(struc[found]["Type"], "(", 1, true)
-            if not string.lower(string.sub(struc[found]["Type"], 0, (#struc[found]["Type"] - pos + 2)*-1)) == string.lower(v["datatype"]) then
-              updateRequired = true
+            if not pos then
+              if string.lower(struc[found]["Type"]) ~= string.lower(v["datatype"]) then
+                outputDebugString(string.lower(struc[found]["Type"]).." "..string.lower(v["datatype"]))
+                updateRequired = true
+              end
+            else
+              if string.lower(string.sub(struc[found]["Type"], 0, (#struc[found]["Type"] - pos + 2)*-1)) ~= string.lower(v["datatype"]) then
+                updateRequired = true
+              end
             end
           end
         end
@@ -128,11 +135,11 @@ SQL_MANAGER.ValidateTable = function(name, structure)
               end
           end
 
-          if(v["default"])then
+          if v["default"] then
             if type(v["default"]) == "number" then
-              qr = qr.." NULL DEFAULT "..v["default"]
+              sql = sql.." NULL DEFAULT "..v["default"]
             elseif type(v["default"]) == "string" then
-              qr = qr.." NULL DEFAULT \""..v["default"].."\""
+              sql = sql.." NULL DEFAULT \""..v["default"].."\""
             end
           end
 

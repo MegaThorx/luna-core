@@ -14,6 +14,7 @@ addEventHandler("onClientResourceStart", resourceRoot, function()
   Models.Init()
   Binds.Init()
   Scoreboard.Init()
+  Bank.Init()
 
   addEventHandler("onClientBrowserCreated", GUI.browser,
     function()
@@ -23,17 +24,18 @@ addEventHandler("onClientResourceStart", resourceRoot, function()
 
   addEventHandler ( "onClientBrowserDocumentReady" , GUI.browser,
   	function ( url )
-        GUI.InitReady()
-        if fileExists("autologin.dat") then
-          local token = ""
-          local file = fileOpen("autologin.dat")
-          token = fileRead(file, fileGetSize(file))
+        if url == "http://mta/" .. getResourceName(getThisResource()) .. "/files/html/index.html" then
+          GUI.InitReady()
+          if fileExists("autologin.dat") then
+            local token = ""
+            local file = fileOpen("autologin.dat")
+            token = fileRead(file, fileGetSize(file))
 
-          triggerServerEvent("onClientReady", localPlayer, token)
-        else
-          triggerServerEvent("onClientReady", localPlayer)
+            triggerServerEvent("onClientReady", localPlayer, token)
+          else
+            triggerServerEvent("onClientReady", localPlayer)
+          end
         end
-
   	end
   )
 end)
