@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <meta charset="utf-8"/>
+  <link rel="stylesheet" href="http://mta/core/files/html/css/uikit.min.css" />
+  <script src="http://mta/core/files/html/js/jquery-3.0.0.min.js"></script>
+  <script src="http://mta/core/files/html/js/jquery.form.min.js"></script>
+  <script src="http://mta/core/files/html/js/uikit.min.js"></script>
+  <script src="http://mta/core/files/html/js/translate.js"></script>
+</head>
+<body>
+ <!-- <button class="uk-button" data-uk-modal="{target:'#bank-window'}">Bank</button> -->
+
+  <!-- This is the modal -->
+  <div id="bank-window" class="uk-modal">
+    <div class="uk-modal-dialog" style="width: 220px;">
+      <a class="uk-modal-close uk-close"></a>
+      <form id="bank" class="uk-form">
+        <legend class="translate">BANK_ATM</legend>
+        <span class="translate">BANK_BALANCE</span> <span id="atm-balance"></span>
+        <input type="text" id="atm-amount" class="translate" placeholder="BANK_AMOUNT" style="margin-bottom: 10px; margin-top: 10px">
+        <button id="atm-payin" class="translate uk-button uk-button-primary">BANK_PAYIN</button>
+        <button id="atm-payout" class="translate uk-button uk-button-primary">BANK_PAYOUT</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+  /*$("#bank").on("submit", function(e){
+    e.preventDefault();
+    $("#bank").ajaxSubmit({url: "http://mta/local/ajax.htm?bank", type: 'post'})
+  });*/
+
+  $("#atm-payin").on("click", function(e){
+    e.preventDefault();
+    var amount = $("#atm-amount").val()
+    $.ajax({url: "http://mta/local/ajax.htm?atmPayin", method: "POST", data: {amount: amount}});
+  });
+
+  $("#atm-payout").on("click", function(e){
+    e.preventDefault();
+    var amount = $("#atm-amount").val()
+    $.ajax({url: "http://mta/local/ajax.htm?atmPayout", method: "POST", data: {amount: amount}});
+  });
+
+  $(document).ready(function(){
+    UIkit.modal("#bank-window").options.center = true;
+  });
+  </script>
+</body>
+</html>

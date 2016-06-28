@@ -17,3 +17,11 @@ _CONFIG["payday.premium.10"] = 5000
 _CONFIG["payday.premium.100"] = 10000
 _CONFIG["payday.premium.1000"] = 25000
 _CONFIG["payday.interest.max"] = 20000
+_CONFIG["teamspeak.query.username"] = "serveradmin"
+_CONFIG["teamspeak.query.password"] = "xxxxxxxxx"
+_CONFIG["teamspeak.query.port"] = 10011
+_CONFIG["teamspeak.api"] = "http://www.mydomain.com/ts_connect.php"
+
+-- TODO move to shared config
+_CONFIG["teamspeak.ip"] = 10011
+_CONFIG["teamspeak.port"] = 9987
