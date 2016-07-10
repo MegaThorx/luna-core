@@ -2,11 +2,12 @@ PlayerVehicle = {}
 PlayerVehicle.vehicles = {}
 
 PlayerVehicle.Init = function()
-  local handle = SQL.Query("SELECT * FROM playervehicles")
-  local result = SQL.Poll(handle, -1)
+  local vehicles = DbPlayerVehicles.Find()
 
-  for k,v in pairs(result) do
-    PlayerVehicle.Spawn(v)
+  if vehicles then
+    for k, v in pairs(vehicles) do
+      PlayerVehicle.Spawn(v)
+    end
   end
 end
 
@@ -22,12 +23,13 @@ PlayerVehicle.GetVehicle = function(id)
   end
 end
 
-PlayerVehicle.Spawn = function(result)
-  local vehicle = Vehicle.Create(result["model"], result["x"], result["y"], result["z"], result["rx"], result["ry"], result["rz"])
-  setVehicleColor(vehicle, result["color1r"], result["color1g"], result["color1b"], result["color2r"], result["color2g"], result["color2b"])
-  setVehicleHeadLightColor(vehicle, result["lightr"], result["lightb"], result["lightg"])
+PlayerVehicle.Spawn = function(veh)
 
-  Element.SetData(vehicle, result, "playervehicles")
+  local vehicle = Vehicle.Create(veh.GetModel(), veh.GetX(), veh.GetY(), veh.GetZ(), veh.GetRx(), veh.GetRy(), veh.GetRz())
+  setVehicleColor(vehicle, veh.Color1r(), veh.Color1g(), veh.Color1b(), veh.Color2r(), veh.Color2g(), veh.Color2b())
+  setVehicleHeadLightColor(vehicle, veh.Lightr(), veh.Lightg(), veh.Lightb())
+
+  veh.CopyDataToElement(vehicle)
   ElementData.Set(vehicle, "shader", true, true)
   ElementData.Set(vehicle, "enginestate", false, true)
 

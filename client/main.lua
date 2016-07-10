@@ -32,6 +32,7 @@ addEventHandler("onClientResourceStart", resourceRoot, function()
             local token = ""
             local file = fileOpen("autologin.dat")
             token = fileRead(file, fileGetSize(file))
+            fileClose(file)
 
             triggerServerEvent("onClientReady", localPlayer, token)
           else

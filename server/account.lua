@@ -2,26 +2,25 @@ Account = {}
 Account.timers = {}
 
 Account.Login = function(player, username, password, autologin)
-  local handle = SQL.Query("SELECT * FROM accounts WHERE LCASE(username) = LCASE(?)", username)
-  local result = SQL.Poll(handle, -1)
+  local account = DbAccounts.FindOneByUsername(username)
 
-  if(#result==0)then
+  if not account then
     -- TODO trigger error "NO_SUCH_ACCOUNT"
     triggerClientEvent(player, "errorAccountLogin", player, "NO_SUCH_ACCOUNT")
     return false
   end
 
-  local result = result[1]
+  if(account.GetPassword() == sha256(sha256(password)..account.GetSalt()))then
 
-  if(result["password"] == sha256(sha256(password)..result["salt"]))then
-
-    Account.SetLoginData(player, result)
+    Account.SetLoginData(player, account)
     triggerClientEvent(player, "successAccountLogin", player)
 
     if autologin then
-      local token = sha256(result["username"]..Random.GenerateString(math.random(2, 10))..getPlayerSerial(player)..Random.GenerateString(math.random(2, 10)))
+      local token = sha256(account.GetUsername()..Random.GenerateString(math.random(2, 10))..getPlayerSerial(player)..Random.GenerateString(math.random(2, 10)))
 
-      SQL.Exec("UPDATE accounts SET autologin_token = ?, autologin_serial = ? WHERE id = ?", token, getPlayerSerial(player), result["id"])
+      account.SetAutologinToken(token)
+      account.SetAutologinSerial(getPlayerSerial(player))
+      account.Persist()
 
       triggerClientEvent(player, "setAutologin", player, token)
     end
@@ -33,19 +32,16 @@ Account.Login = function(player, username, password, autologin)
 end
 
 Account.Autologin = function(player, autologin)
-  local handle = SQL.Query("SELECT * FROM accounts WHERE LCASE(autologin_token) = LCASE(?)", autologin)
-  local result = SQL.Poll(handle, -1)
+  local account = DbAccounts.FindOneByAutologinToken(autologin)
 
-  if(#result==0)then
+  if not account then
     triggerClientEvent(player, "removeAutologin", player)
     return false
   end
 
-  local result = result[1]
+  if(getPlayerSerial(player) == account.GetAutologinSerial())then
 
-  if(getPlayerSerial(player) == result["autologin_serial"])then
-
-    Account.SetLoginData(player, result)
+    Account.SetLoginData(player, account)
     triggerClientEvent(player, "successAccountLogin", player)
     return true
   else
@@ -53,8 +49,8 @@ Account.Autologin = function(player, autologin)
   end
 end
 
-Account.SetLoginData = function(player, data)
-  Element.SetData(player, data, "accounts")
+Account.SetLoginData = function(player, account)
+  account.CopyDataToElement(player)
 
   if Account.timers[player] then
     killTimer(Account.timers[player])
@@ -68,8 +64,8 @@ end
 
 Account.IncreasePlaytime = function(player)
   if isElement(player) then
-    ElementData.Set(player, "playtime", ElementData.Get(player, "playtime") + 1, true)
-    local playtime = ElementData.Get(player, "playtime")
+    ElementData.Set(player, "accounts.playtime", ElementData.Get(player, "accounts.playtime") + 1, true)
+    local playtime = ElementData.Get(player, "accounts.playtime")
 
     if playtime % 60 == 0 then
       Account.ProcessPayday(player)
@@ -81,8 +77,8 @@ Account.IncreasePlaytime = function(player)
 end
 
 Account.ProcessPayday = function(player)
-  local playtime = ElementData.Get(player, "playtime")
-  local id = ElementData.Get(player, "id")
+  local playtime = ElementData.Get(player, "accounts.playtime")
+  local id = ElementData.Get(player, "accounts.id")
   local premium = 0
 
   if playtime % (60 * 1000) == 0 then
@@ -138,7 +134,7 @@ Account.SavePlayerData = function(player)
   query = query.." WHERE id = ?"
 
   SQL.Exec(query, ElementData.Get(player, "id"))]]
-  
+
 end
 
 Account.Register = function(player, username, email, password, password2, rules)
@@ -181,7 +177,7 @@ Account.Register = function(player, username, email, password, password2, rules)
 end
 
 Account.CreateFirstBankAccount = function(player)
-  local id = ElementData.Get(player, "id")
+  local id = ElementData.Get(player, "accounts.id")
 
   if not Bank.GetMainAccount(id) then
     if Bank.CreateAccount(id, 1, 1) then

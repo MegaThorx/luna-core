@@ -1,52 +1,103 @@
-SQL_STRUCTURE = {}
-
-
--- TABLE accounts
-SQL_STRUCTURE["accounts"] = {
+DBSchemaIncludes = {
+  coordination = {
+    datatype = "double",
+    default = 0,
+    custom = {
+      storeClient = true,
+      storeServer = true,
+      autoSave = false
+    }
+  },
+  color = {
+    datatype = "int",
+    default = 0,
+    custom = {
+      storeClient = true,
+      storeServer = true,
+      autoSave = false
+    }
+  },
   id = {
-    primarykey = true,
-    datatype = "INT",
-    notnull = true,
+    name = "id",
+    datatype = "int",
     autoincrement = true,
+    primarykey = true,
     custom = {
       storeClient = true,
       storeServer = true
     }
   },
-  username = {
-    datatype = "VARCHAR",
+  account = {
+    name = "account",
+    reference = {
+      type = "manyToOne",
+      targetEntity = "accounts",
+      joinColumn = {
+        name = "account_id",
+        referencedColumnName = "id"
+      }
+    }
+  }
+}
+
+DBSchema = {}
+
+DBSchema.accounts = {
+  {
+    include = "id"
+  },
+  {
+    name = "username",
+    datatype = "varchar",
     length = 32,
+    unique = true,
+    caseSensitiv = false,
+    nullable = false,
     custom = {
       storeClient = true,
-      storeServer = true
+      storeServer = true,
+      autoSave = false
     }
   },
-  password = {
-    datatype = "VARCHAR",
-    length = 64,
+  {
+    name = "playtime",
+    datatype = "int",
+    default = 0,
+    nullable = false,
+    custom = {
+      storeClient = true,
+      storeServer = true,
+      autoSave = true
+    }
   },
-  email = {
-    datatype = "VARCHAR",
-    length = 64,
+  {
+    name = "password",
+    datatype = "varchar",
+    length = 64
   },
-  salt = {
-    datatype = "VARCHAR",
+  {
+    name = "email",
+    datatype = "varchar",
+    length = 64
+  },
+  {
+    name = "salt",
+    datatype = "varchar",
     length = 8,
   },
-  serial = {
-    datatype = "VARCHAR",
-    length = 32,
-  },
-  autologin_token = {
-    datatype = "VARCHAR",
+  {
+    name = "autologinToken",
+    datatype = "varchar",
     length = 64,
   },
-  autologin_serial = {
-    datatype = "VARCHAR",
+  {
+    name = "autologinSerial",
+    datatype = "varchar",
     length = 32,
   },
-  adminlevel = {
-    datatype = "SMALLINT",
+  {
+    name = "adminlevel",
+    datatype = "smallint",
     default = 0,
     custom = {
       storeClient = true,
@@ -54,8 +105,9 @@ SQL_STRUCTURE["accounts"] = {
       autoSave = true
     }
   },
-  wantedlevel = {
-    datatype = "SMALLINT",
+  {
+    name = "money",
+    datatype = "bigint",
     default = 0,
     custom = {
       storeClient = true,
@@ -63,8 +115,9 @@ SQL_STRUCTURE["accounts"] = {
       autoSave = true
     }
   },
-  playtime = {
-    datatype = "BIGINT",
+  {
+    name = "wantedlevel",
+    datatype = "smallint",
     default = 0,
     custom = {
       storeClient = true,
@@ -72,25 +125,18 @@ SQL_STRUCTURE["accounts"] = {
       autoSave = true
     }
   },
-  money = {
-    datatype = "DOUBLE",
-    default = 0,
-    custom = {
-      storeClient = true,
-      storeServer = true,
-      autoSave = true
-    }
-  },
-  lastonline = {
-    datatype = "BIGINT",
+  {
+    name = "lastonline",
+    datatype = "bigint",
     default = 0,
     custom = {
       storeServer = true,
       autoSave = true
     }
   },
-  language = {
-    datatype = "VARCHAR",
+  {
+    name = "language",
+    datatype = "varchar",
     length = 5,
     default = Config.Get("defaultlanguage"),
     custom = {
@@ -98,141 +144,95 @@ SQL_STRUCTURE["accounts"] = {
       storeClient = true,
       autoSave = true
     }
+  },
+  {
+    name = "x",
+    include = "coordination"
+  },
+  {
+    name = "y",
+    include = "coordination"
+  },
+  {
+    name = "z",
+    include = "coordination"
   }
 }
 
-
--- TABLE vehicles
-SQL_STRUCTURE["playervehicles"] = {
-  id = {
-    primarykey = true,
-    datatype = "INT",
-    notnull = true,
-    autoincrement = true,
-    custom = {
-      storeClient = true,
-      storeServer = true
-    }
+DBSchema.playerVehicles = {
+  {
+    include = "id"
   },
-  owner = {
-    datatype = "INT",
-    notnull = true,
-    custom = {
-      storeClient = true,
-      storeServer = true
-    }
+  {
+    include = "account"
   },
-  model = {
-    datatype = "INT",
-    notnull = true
+  {
+    name = "model",
+    datatype = "int"
   },
-  x = {
-    datatype = "DOUBLE",
-    notnull = true
+  {
+    name = "x",
+    include = "coordination"
   },
-  y = {
-    datatype = "DOUBLE",
-    notnull = true
+  {
+    name = "y",
+    include = "coordination"
   },
-  z = {
-    datatype = "DOUBLE",
-    notnull = true
+  {
+    name = "z",
+    include = "coordination"
   },
-  rx = {
-    datatype = "DOUBLE",
-    notnull = true
+  {
+    name = "rx",
+    include = "coordination"
   },
-  ry = {
-    datatype = "DOUBLE",
-    notnull = true
+  {
+    name = "ry",
+    include = "coordination"
   },
-  rz = {
-    datatype = "DOUBLE",
-    notnull = true
+  {
+    name = "rz",
+    include = "coordination"
   },
-  color1r = {
-    datatype = "INT",
-    default = 0,
-    custom = {
-      storeClient = true,
-      storeServer = true,
-      autoSave = true
-    }
+  {
+    name = "color1r",
+    include = "color"
   },
-  color1g = {
-    datatype = "INT",
-    default = 0,
-    custom = {
-      storeClient = true,
-      storeServer = true,
-      autoSave = true
-    }
+  {
+    name = "color1g",
+    include = "color"
   },
-  color1b = {
-    datatype = "INT",
-    default = 0,
-    custom = {
-      storeClient = true,
-      storeServer = true,
-      autoSave = true
-    }
+  {
+    name = "color1b",
+    include = "color"
   },
-  color2r = {
-    datatype = "INT",
-    default = 0,
-    custom = {
-      storeClient = true,
-      storeServer = true,
-      autoSave = true
-    }
+  {
+    name = "color2r",
+    include = "color"
   },
-  color2g = {
-    datatype = "INT",
-    default = 0,
-    custom = {
-      storeClient = true,
-      storeServer = true,
-      autoSave = true
-    }
+  {
+    name = "color2g",
+    include = "color"
   },
-  color2b = {
-    datatype = "INT",
-    default = 0,
-    custom = {
-      storeClient = true,
-      storeServer = true,
-      autoSave = true
-    }
+  {
+    name = "color2b",
+    include = "color"
   },
-  lightr = {
-    datatype = "INT",
-    default = 0,
-    custom = {
-      storeClient = true,
-      storeServer = true,
-      autoSave = true
-    }
+  {
+    name = "lightr",
+    include = "color"
   },
-  lightb = {
-    datatype = "INT",
-    default = 0,
-    custom = {
-      storeClient = true,
-      storeServer = true,
-      autoSave = true
-    }
+  {
+    name = "lightg",
+    include = "color"
   },
-  lightg = {
-    datatype = "INT",
-    default = 0,
-    custom = {
-      storeClient = true,
-      storeServer = true,
-      autoSave = true
-    }
+  {
+    name = "lightb",
+    include = "color"
   },
-  fuel = {
-    datatype = "INT",
+  {
+    name = "fuel",
+    datatype = "int",
     default = 1000,
     custom = {
       storeClient = true,
@@ -242,113 +242,102 @@ SQL_STRUCTURE["playervehicles"] = {
   }
 }
 
--- TABLE bank_accounts
-SQL_STRUCTURE["bank_accounts"] = {
-  id = {
-    primarykey = true,
-    datatype = "INT",
-    notnull = true,
-    autoincrement = true
+DBSchema.bankAccounts = {
+  {
+    include = "id"
   },
-  accountNumber = {
-    datatype = "INT",
-    notnull = true,
+  {
+    include = "account"
   },
-  owner = {
-    datatype = "INT",
-    notnull = true,
+  {
+    name = "accountNumber",
+    datatype = "int",
+    unique = true
   },
-  balance = {
-    datatype = "DOUBLE",
+  {
+    name = "balance",
+    datatype = "bigint",
     default = 0
   },
-  typ = {
-    datatype = "INT",
-    notnull = true,
+  {
+    name = "typ",
+    datatype = "int"
   },
-  default = {
-    datatype = "INT",
+  {
+    name = "default",
+    datatype = "int",
     default = 0
   },
-  closed = {
-    datatype = "INT",
+  {
+    name = "closed",
+    datatype = "int",
     default = 0
   }
 }
 
--- TABLE bank_types
-SQL_STRUCTURE["bank_types"] = {
-  id = {
-    primarykey = true,
-    datatype = "INT",
-    notnull = true,
-    autoincrement = true
+DBSchema.bankTypes = {
+  {
+    include = "id"
   },
-  name = {
-    datatype = "VARCHAR",
+  {
+    name = "name",
+    datatype = "varchar",
     length = 64
   },
-  transactionProcessingTime = {
-    datatype = "INT",
-    notnull = true,
+  {
+    name = "transactionProcessingTime",
+    datatype = "int",
     default = 0
   },
-  haveInterest = {
-    datatype = "INT",
-    notnull = true,
+  {
+    name = "haveInterest",
+    datatype = "int",
     default = 0
   },
-  interest = {
-    datatype = "INT",
-    notnull = true,
+  {
+    name = "overdraft",
+    datatype = "int",
     default = 0
   },
-  overdraft = {
-    datatype = "INT",
-    notnull = true,
-    default = 0
-  },
-  canReceiveDirectPayments = {
-    datatype = "INT",
-    notnull = true,
+  {
+    name = "canReceiveDirectPayments",
+    datatype = "int",
     default = 1
   }
 }
 
--- TABLE bank_transactions
-SQL_STRUCTURE["bank_transactions"] = {
-  id = {
-    primarykey = true,
-    datatype = "INT",
-    notnull = true,
-    autoincrement = true
+DBSchema.bankTransactions = {
+  {
+    include = "id"
   },
-  from = {
-    datatype = "INT",
-    notnull = true
+  {
+    name = "from",
+    datatype = "int"
   },
-  to = {
-    datatype = "INT",
-    notnull = true
+  {
+    name = "to",
+    datatype = "int"
   },
-  amount = {
-    datatype = "BIGINT",
-    notnull = true
+  {
+    name = "amount",
+    datatype = "bigint"
   },
-  reason = {
-    datatype = "VARCHAR",
+  {
+    name = "reason",
+    datatype = "varchar",
     length = 256
   },
-  creationTime = {
-    datatype = "INT",
-    notnull = true
+  {
+    name = "creationTime",
+    datatype = "int"
   },
-  processingTime = {
-    datatype = "INT",
-    notnull = true
+  {
+    name = "processingTime",
+    datatype = "int"
   },
-  state = {
-    datatype = "INT",
+  {
+    name = "state",
+    datatype = "int",
     default = 0
   }
 }

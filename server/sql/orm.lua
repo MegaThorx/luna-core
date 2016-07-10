@@ -7,11 +7,22 @@ ORM.prefix = "Db"
 
 ORM.Init = function()
   for tableName, columns in pairs(DBSchema) do
-    local newName = ORM.prefix..firstToUpper(tableName)
+    local newName = ORM.prefix..Utils.FirstToUpper(tableName)
     _G[newName] = {}
 
+    _G[newName]["GetFromElement"] = function(element)
+      for k, v in pairs(columns) do
+        if v.primarykey then
+          local key = ElementData.Get(element, tableName.."."..v.name)
+          if key then
+            return _G[newName]["FindOneBy"..Utils.FirstToUpper(v.name)](key)
+          end
+        end
+      end
+      return false
+    end
+
     _G[newName]["Create"] = function()
-      outputDebugString("Create for " .. tableName)
       return ORM.GenerateObject(tableName, nil)
     end
 
@@ -39,7 +50,7 @@ ORM.Init = function()
     end
 
     for _, data in pairs(columns) do
-      local func = "FindBy"..firstToUpper(data.name)
+      local func = "FindBy"..Utils.FirstToUpper(data.name)
       _G[newName][func] = function(where, orderBy)
         local handle = SQL.Query("SELECT * FROM "..tableName.." WHERE " .. data.name .. " = ?", where)
         local result, count = SQL.Poll(handle, -1)
@@ -76,11 +87,11 @@ ORM.Init = function()
     end
 
     for _, data in pairs(columns) do
-      local func = "FindOneBy"..firstToUpper(data.name)
+      local func = "FindOneBy"..Utils.FirstToUpper(data.name)
       _G[newName][func] = function(where, orderBy)
 
         if data.reference then
-          local handle = SQL.Query("SELECT * FROM "..tableName.." WHERE " .. data.reference.joinColumn.name .. " = ? LIMIT 1", where["Get"..firstToUpper(data.reference.joinColumn.referencedColumnName)]())
+          local handle = SQL.Query("SELECT * FROM "..tableName.." WHERE " .. data.reference.joinColumn.name .. " = ? LIMIT 1", where["Get"..Utils.FirstToUpper(data.reference.joinColumn.referencedColumnName)]())
           local result, count = SQL.Poll(handle, -1)
           if count > 0 then
             return ORM.GenerateObject(tableName, result[1])
@@ -102,21 +113,23 @@ end
 ORM.GenerateWhere = function(tableName, where)
   local wString = ""
 
-  for k, v in pairs(where) do
-    if wString ~= "" then
-      wString = wString.." AND "
+  if where then
+    for k, v in pairs(where) do
+      if wString ~= "" then
+        wString = wString.." AND "
+      end
+
+      local val = v
+      local key = k
+
+      if type(v) == "table" then
+        local data = ORM.GetDataForColumn(tableName, k)
+        val = v["Get"..Utils.FirstToUpper(data.reference.joinColumn.referencedColumnName)]()
+        key = data.reference.joinColumn.name
+      end
+
+      wString = wString..key.." = "..SQL.PrepareString(val)
     end
-
-    local val = v
-    local key = k
-
-    if type(v) == "table" then
-      local data = ORM.GetDataForColumn(tableName, k)
-      val = v["Get"..firstToUpper(data.reference.joinColumn.referencedColumnName)]()
-      key = data.reference.joinColumn.name
-    end
-
-    wString = wString..key.." = "..SQL.PrepareString(val)
   end
 
   return wString
@@ -161,7 +174,7 @@ ORM.GenerateObject = function(tableName, data)
   end
 
   for _, column in pairs(struct) do
-    local name = firstToUpper(column.name)
+    local name = Utils.FirstToUpper(column.name)
     local columnName = column.name
 
     if column.reference then
@@ -171,7 +184,7 @@ ORM.GenerateObject = function(tableName, data)
     -- GETTER
     obj["Get"..name] = function()
       if column.reference then
-        return _G[ORM.prefix..firstToUpper(column.reference.targetEntity)].FindOneById(data[columnName])
+        return _G[ORM.prefix..Utils.FirstToUpper(column.reference.targetEntity)].FindOneById(data[columnName])
       else
         return data[columnName]
       end
@@ -182,8 +195,8 @@ ORM.GenerateObject = function(tableName, data)
       obj["Set"..name] = function(value)
         if column.reference then
           if value then
-            if value["Get"..firstToUpper(column.reference.joinColumn.referencedColumnName)]() then
-              data[columnName] = value["Get"..firstToUpper(column.reference.joinColumn.referencedColumnName)]()
+            if value["Get"..Utils.FirstToUpper(column.reference.joinColumn.referencedColumnName)]() then
+              data[columnName] = value["Get"..Utils.FirstToUpper(column.reference.joinColumn.referencedColumnName)]()
               isModified = true
               modified[columnName] = true
               return true
@@ -192,7 +205,7 @@ ORM.GenerateObject = function(tableName, data)
           return false
         else
           if column.unique then
-            if _G[ORM.prefix..firstToUpper(tableName)]["FindOneBy"..firstToUpper(column.name)](value) then
+            if _G[ORM.prefix..Utils.FirstToUpper(tableName)]["FindOneBy"..Utils.FirstToUpper(column.name)](value) then
               return false
             end
 
@@ -205,6 +218,42 @@ ORM.GenerateObject = function(tableName, data)
             modified[columnName] = true
             isModified = true
             return true
+          end
+        end
+      end
+    end
+  end
+
+  obj["CopyDataToElement"] = function(element)
+    for _, column in pairs(struct) do
+      local name = column.name
+      local columnName = column.name
+
+      if column.reference then
+        columnName = column.reference.joinColumn.name
+      end
+
+      if column.custom and (column.custom.storeClient or column.custom.storeServer) then
+        ElementData.Set(element, tableName.."."..name, data[columnName], column.custom.storeClient)
+      end
+    end
+  end
+
+
+  obj["CopyDataFromElement"] = function(element)
+    for _, column in pairs(struct) do
+      local name = column.name
+      local columnName = column.name
+
+      if column.reference then
+        columnName = column.reference.joinColumn.name
+      end
+
+      if column.custom and (column.custom.storeClient or column.custom.storeServer) then
+        if column.custom.autoSave then
+          local val = ElementData.Get(element, tableName.."."..name)
+          if val then
+            obj["Set"..Utils.FirstToUpper(column.name)](val)
           end
         end
       end
@@ -272,12 +321,12 @@ ORM.Test = function()
   SQL.StartCollectionServingTime()
 
   for i=1, 1000 do
-    local account = DbAccounts.FindOneByName("Klausela")
-    local bankaccount = DbBankAccounts.FindOneById(1)
-    bankaccount.GetAccount().GetName()
-    bankaccount.SetAccount(account)
-    bankaccount.Persist()
-    bankaccount.GetAccount().GetName()
+    --local account = DbAccounts.FindOneByUsername("Klausela")
+    --local bankaccount = DbBankAccounts.FindOneById(1)
+    --bankaccount.GetAccount().GetUsername()
+    --bankaccount.SetAccount(account)
+    --bankaccount.Persist()
+    --bankaccount.GetAccount().GetUsername()
   end
   local diff = getTickCount() - tick
   local count = SQL.StopCounter()
@@ -301,16 +350,24 @@ ORM.Test = function()
 
   local tick = getTickCount()
 
-  local account = DbAccounts.FindOneByName("Klausela")
-  local bankaccount = DbBankAccounts.FindOneById(1)
-  for i=1, 100000 do
-    bankaccount.GetId()
-  end
+  --local account = DbAccounts.FindOneByUsername("Klausela")
+  --local bankaccount = DbBankAccounts.FindOneById(1)
+  --for i=1, 100000 do
+  --  bankaccount.GetId()
+  --end
 
   local diff = getTickCount() - tick
 
   outputServerLog(diff.."ms")
+  --[[
+  local account = DbAccounts.FindOneByUsername("Klausela")
 
+  local element = createElement("test")
+  account.CopyDataToElement(element)
+  outputDebugString(tostring(ElementData.Get(element, "accounts.id")))
+  local acc = DbAccounts.GetFromElement(element)
+  outputDebugString(tostring(acc))
+  outputDebugString(tostring(acc.GetUsername()))]]
 
     --for k,v in pairs(account) do
     --  outputServerLog(k)
@@ -382,7 +439,3 @@ addCommandHandler("create", function(player, cmd, name)
   end
   outputServerLog("created new account "..acc.GetName())
 end)
-
-function firstToUpper(str)
-    return (str:gsub("^%l", string.upper))
-end

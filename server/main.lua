@@ -4,7 +4,9 @@ addEventHandler("onResourceStart", resourceRoot, function()
   setMinuteDuration(60 * 1000)
 
   SQL.Connect()
-  SQL_MANAGER.Validate()
+  SQLManager.Validate()
+  ORM.Init()
+  
   Translations.Init()
   Bank.Init()
   PlayerVehicle.Init()

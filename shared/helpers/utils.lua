@@ -155,3 +155,7 @@ Utils.SetElementSpeed = function(element, unit, speed)
 
 	return false
 end
+
+Utils.FirstToUpper = function(str)
+	return (str:gsub("^%l", string.upper))
+end

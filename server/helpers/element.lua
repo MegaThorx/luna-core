@@ -1,6 +1,6 @@
 Element = {}
 
-Element.SetData = function(element, data, table)
+--[[Element.SetData = function(element, data, table)
 
   for k,v in pairs(data) do
     if (SQL_STRUCTURE[table][k].custom and (SQL_STRUCTURE[table][k].custom.storeClient or SQL_STRUCTURE[table][k].custom.storeServer)) then
@@ -11,23 +11,18 @@ Element.SetData = function(element, data, table)
       end
     end
   end
-end
+end]]
 
 
-Element.SaveData = function(element, table)
-    local query = "UPDATE "..table.." SET "
-    
-    for k,v in pairs(SQL_STRUCTURE[table]) do
-      if SQL_STRUCTURE[table][k].custom and SQL_STRUCTURE[table][k].custom.autoSave then
-        if query ~= "UPDATE "..table.." SET " then
-          query = query..", "
-        end
-        query = query..SQL.PrepareString(k.." = ?", ElementData.Get(element, k))
-      end
-    end
-    query = query.." WHERE id = ?"
+Element.SaveData = function(element, tableName)
+  local data = _G["Db"..Utils.FirstToUpper(tableName)].GetFromElement(element)
 
-    SQL.Exec(query, ElementData.Get(element, "id"))
+  if data then
+    data.CopyDataFromElement(element)
+    return data.Persist()
+  end
+
+  return false
 end
 
 Element.Destroy = function(element)

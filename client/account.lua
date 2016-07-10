@@ -96,6 +96,7 @@ end)
 
 addEventHandler("errorAccountLogin", root, function(error)
   isBlocked = false
+  outputChatBox(error)
 end)
 
 addEventHandler("errorAccountRegister", root, function(error)

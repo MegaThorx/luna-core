@@ -3,12 +3,12 @@ Player = {}
 Player.GetUsername = function(player)
   if localPlayer then
     if player then
-      return getElementData(player, "username")
+      return getElementData(player, "accounts.username")
     else
-      return getElementData(localPlayer, "username")
+      return getElementData(localPlayer, "accounts.username")
     end
   else
-    return ElementData.Get(player, "username")
+    return ElementData.Get(player, "accounts.username")
   end
 
   return false
@@ -27,12 +27,12 @@ end
 Player.GetPlaytime = function(player)
   if localPlayer then
     if player then
-      return getElementData(player, "playtime")
+      return getElementData(player, "accounts.playtime")
     else
-      return getElementData(localPlayer, "playtime")
+      return getElementData(localPlayer, "accounts.playtime")
     end
   else
-    return ElementData.Get(player, "playtime")
+    return ElementData.Get(player, "accounts.playtime")
   end
 
   return false
@@ -66,12 +66,12 @@ end
 Player.GetMoney = function(player)
   if localPlayer then
     if player then
-      return getElementData(player, "money")
+      return getElementData(player, "accounts.money")
     else
-      return getElementData(localPlayer, "money")
+      return getElementData(localPlayer, "accounts.money")
     end
   else
-    return ElementData.Get(player, "money")
+    return ElementData.Get(player, "accounts.money")
   end
 
   return false
@@ -80,12 +80,12 @@ end
 Player.GetWantedlevel = function(player)
   if localPlayer then
     if player then
-      return getElementData(player, "wantedlevel")
+      return getElementData(player, "accounts.wantedlevel")
     else
-      return getElementData(localPlayer, "wantedlevel")
+      return getElementData(localPlayer, "accounts.wantedlevel")
     end
   else
-    return ElementData.Get(player, "wantedlevel")
+    return ElementData.Get(player, "accounts.wantedlevel")
   end
 
   return false
@@ -94,12 +94,12 @@ end
 Player.GetAdminlevel = function(player)
   if localPlayer then
     if player then
-      return getElementData(player, "adminlevel")
+      return getElementData(player, "accounts.adminlevel")
     else
-      return getElementData(localPlayer, "adminlevel")
+      return getElementData(localPlayer, "accounts.adminlevel")
     end
   else
-    return ElementData.Get(player, "adminlevel")
+    return ElementData.Get(player, "accounts.adminlevel")
   end
 
   return false

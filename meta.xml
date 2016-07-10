@@ -27,6 +27,7 @@
 
   <script src="server/sql/manager.lua" type="server" />
   <script src="server/sql/structure.lua" type="server" />
+  <script src="server/sql/orm.lua" type="server" />
 
   <script src="server/translations.lua" type="server" />
   <script src="server/events.lua" type="server" />
