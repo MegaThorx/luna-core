@@ -1,14 +1,25 @@
 Teamspeak = {}
 Teamspeak.element = createElement("teamspeak")
+Teamspeak.channels = {}
 
 addEvent("onTeamspeakKick")
 addEvent("onTeamspeakPoke")
+addEvent("onTeamspeakMessage")
+addEvent("onTeamspeakChannels")
+addEvent("onTeamspeakClients")
+
+
+
 
 Teamspeak.Init = function()
 
 end
 
 Teamspeak.SendRequest = function(callback, ...)
+  callRemote(Config.Get("teamspeak.api"), callback, Config.Get("teamspeak.token"), ...)
+end
+
+Teamspeak.SendRequest2 = function(callback, ...)
   callRemote(Config.Get("teamspeak.api"), callback, Config.Get("teamspeak.token"), ...)
 end
 
@@ -24,9 +35,9 @@ Teamspeak.Kick = function(uid, kickTyp, reason, callback)
     end
 
     if callback then
-      callback(res, uid, kickTyp, reason)
+      callback(res, result, uid, kickTyp, reason)
     end
-    triggerEvent("onTeamspeakKick", Teamspeak.element, res, uid, kickTyp, reason))
+    triggerEvent("onTeamspeakKick", Teamspeak.element, res, uid, kickTyp, reason)
   end, "kick", uid, kickTyp, reason)
 end
 
@@ -42,8 +53,184 @@ Teamspeak.Poke = function(uid, text, callback)
     end
 
     if callback then
-      callback(res, uid, text)
+      callback(res, result, uid, text)
     end
     triggerEvent("onTeamspeakPoke", Teamspeak.element, res, uid, text)
   end, "poke", uid, text)
 end
+
+
+
+Teamspeak.MessageClient = function(uid, text, callback)
+  if not uid then return end
+
+  Teamspeak.SendRequest(function(result)
+    local res = false
+    if result == "Success" then
+      res = true
+    end
+
+    if callback then
+      callback(res, result, uid, text)
+    end
+    triggerEvent("onTeamspeakMessage", Teamspeak.element, res, uid, text)
+  end, "messageClient", uid, text)
+end
+
+Teamspeak.MessageServer = function(text, callback)
+
+  Teamspeak.SendRequest(function(result)
+    local res = false
+    if result == "Success" then
+      res = true
+    end
+
+    if callback then
+      callback(res, result, text)
+    end
+    triggerEvent("onTeamspeakMessage", Teamspeak.element, res, text)
+  end, "messageServer", text)
+end
+
+
+Teamspeak.MoveToChannel = function(uid, channelId, text, callback)
+
+  Teamspeak.SendRequest(function(result)
+    local res = false
+    if result == "Success" then
+      res = true
+    end
+
+    if callback then
+      callback(res, result, uid, channelId, text)
+    end
+    triggerEvent("onTeamspeakMessage", Teamspeak.element, res, uid, channelId, text)
+  end, "moveToChannel", uid, channelId, text)
+end
+
+Teamspeak.GetChannels = function(callback)
+
+  Teamspeak.SendRequest(function(result)
+    local res = false
+    if result == "Success" then
+      res = true
+    end
+
+    if callback then
+      callback(result)
+    end
+    triggerEvent("onTeamspeakChannels", Teamspeak.element, result)
+  end, "getChannels")
+end
+
+Teamspeak.GetClients = function(callback)
+
+  Teamspeak.SendRequest(function(result)
+    local res = false
+    if result == "Success" then
+      res = true
+    end
+
+    if callback then
+      callback(result)
+    end
+    triggerEvent("onTeamspeakClients", Teamspeak.element, result)
+  end, "getClients")
+end
+
+Teamspeak.GetClientServergroup = function(uid, callback)
+
+  Teamspeak.SendRequest(function(result)
+    local res = false
+    if result == "Success" then
+      res = true
+    end
+
+    if callback then
+      callback(result, uid)
+    end
+    triggerEvent("onTeamspeakClients", Teamspeak.element, uid, result)
+  end, "getClientServergroup", uid)
+end
+
+addCommandHandler("teste", function()
+  outputDebugString("kicking em")
+  Teamspeak.Kick("4/MzNBuF5NMmGPP+8h6eNrSXCDs=", 0, "Test", function(_, result)
+    outputDebugString(tostring(result))
+  end)
+end)
+
+addCommandHandler("poke", function(player, cmd, ...)
+  local text = {...}
+  text = table.concat(text, ' ')
+  Teamspeak.Poke("rJVgSGt4gXDwJ2UArtDgfbUKYVw=", text, function(_, result)
+    outputDebugString(tostring(result))
+  end)
+end)
+
+addCommandHandler("poke2", function(player, cmd, ...)
+  local text = {...}
+  text = table.concat(text, ' ')
+  Teamspeak.Poke("RSOzMBIUTF8wmYb8qiyhaSR26VA=", text, function(_, result)
+    outputDebugString(tostring(result))
+  end)
+end)
+
+
+
+addCommandHandler("pmi", function(player, cmd, ...)
+  local text = {...}
+  text = table.concat(text, ' ')
+  Teamspeak.MessageClient("4/MzNBuF5NMmGPP+8h6eNrSXCDs=", text)
+
+end)
+
+
+addCommandHandler("sayi", function(player, cmd, ...)
+  local text = {...}
+  text = table.concat(text, ' ')
+  Teamspeak.MessageServer(text)
+
+end)
+
+addCommandHandler("move", function(player, cmd, ...)
+  local current = 1
+
+  setTimer(function()
+    Teamspeak.MoveToChannel("rJVgSGt4gXDwJ2UArtDgfbUKYVw=", Teamspeak.channels[current], "")
+    current = current + 1
+    if #Teamspeak.channels < current then
+      current = 1
+    end
+  end, 750, 0)
+end)
+
+
+addCommandHandler("groups", function()
+  Teamspeak.GetClientServergroup("SuuUi2R/8RkF3Z085Be5jZNjSZs=",
+  function(result)
+    for ke,kv in pairs(result) do
+      outputChatBox(tostring(ke).." "..tostring(kv))
+    end
+  Utils.Dump("-v", result)
+  outputChatBox("loaded groups")
+  end)
+end)
+
+
+addCommandHandler("channels", function()
+  Teamspeak.GetChannels(function(result)
+      for ke,kv in pairs(result) do
+        table.insert(Teamspeak.channels, ke)
+      end
+    Utils.Dump("-v", result)
+  end)
+end)
+
+
+
+addCommandHandler("clients", function()
+  Teamspeak.GetClients(function(result)
+    Utils.Dump("-v", result)
+  end)
+end)

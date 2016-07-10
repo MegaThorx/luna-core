@@ -21,3 +21,7 @@ end
 Player.SetMoney = function(player, amount)
   return ElementData.Set(player, "money", amount, true)
 end
+
+Player.GetId = function(player)
+  return ElementData.Get(player, "id")
+end

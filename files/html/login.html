@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!--Import Google Icon Font-->
+  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!--Import materialize.css-->
+  <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+
+<body>
+  <!-- Modal Trigger -->
+  <!--
+  <a class="waves-effect waves-light btn modal-trigger" href="#modal-login">Login</a>
+  <a class="waves-effect waves-light btn modal-trigger" href="#modal-register">Register</a>
+  -->
+  <!-- Modal Structure -->
+  <div id="modal-login" class="modal" style="width: 400px;">
+    <div class="modal-content">
+      <h4>Login</h4>
+      <div class="row">
+        <form class="col s12">
+          <div class="row">
+            <div class="input-field">
+              <input id="username" type="text" class="validate">
+              <label for="username">Username</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field">
+              <input id="password" type="password" class="validate">
+              <label for="password">Passwort</label>
+            </div>
+          </div>
+          <div class="row">
+            <input type="checkbox" class="filled-in" id="autologin" />
+            <label for="autologin">Autologin</label>
+          </div>
+          <div class="row">
+            <input type="submit" class="waves-effect waves-light btn modal-action modal-close" id="autologin" value="Einloggen" />
+            <a href="#" class="right waves-effect waves-light btn red" id="show-register-modal">Registieren</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Structure -->
+  <div id="modal-register" class="modal" style="width: 400px;">
+    <div class="modal-content">
+      <h4>Registrieren</h4>
+      <div class="row">
+        <form class="col s12">
+          <div class="row">
+            <div class="input-field">
+              <input id="username" type="text" class="validate">
+              <label for="username">Username</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field">
+              <input id="email" type="email" class="validate">
+              <label for="email">E-Mail</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field">
+              <input id="password" type="password" class="validate">
+              <label for="password">Passwort</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field">
+              <input id="password2" type="password" class="validate">
+              <label for="password2">Passwort wiederholung</label>
+            </div>
+          </div>
+          <div class="row">
+            <input type="checkbox" class="filled-in" id="rules" />
+            <label for="rules">Regeln</label>
+          </div>
+          <div class="row">
+            <input type="submit" class="waves-effect waves-light btn modal-action modal-close" id="autologin" value="Registrieren" />
+            <a href="#" class="right waves-effect waves-light btn red" id="show-login-modal">Einloggen</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!--Import jQuery before materialize.js-->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="js/materialize.min.js"></script>
+  <script>
+  $(document).ready(function(){
+    /*
+    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+    $('.modal-trigger').leanModal({
+      dismissible: false , // Modal can be dismissed by clicking outside of the modal
+      opacity: 0.5, // Opacity of modal background
+      in_duration: 0, // Transition in duration
+      out_duration: 0 // Transition out duration
+    });*/
+
+
+    $('#show-register-modal').on("click", function(){
+      $('#modal-login').closeModal();
+      $('#modal-register').openModal();
+    });
+
+    $('#show-login-modal').on("click", function(){
+      $('#modal-register').closeModal();
+      $('#modal-login').openModal();
+    });
+  });
+  </script>
+</body>
+</html>

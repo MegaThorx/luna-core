@@ -1,8 +1,9 @@
 ElementData = {}
 local data = {}
 local sync = {}
+local cupd = {}
 
-ElementData.Set = function(theElement, key, value, synchronize)
+ElementData.Set = function(theElement, key, value, synchronize, clientUpdate)
   if not value then
     return ElementData.Delete(theElement, key, value)
   end
@@ -10,6 +11,13 @@ ElementData.Set = function(theElement, key, value, synchronize)
   if(synchronize)then
     if not sync[theElement] then
       sync[theElement] = {}
+    end
+
+    if clientUpdate then
+      if not cupd[theElement] then
+        cupd[theElement] = {}
+      end
+      cupd[theElement][key] = clientUpdate
     end
 
     sync[theElement][key] = synchronize
@@ -63,3 +71,20 @@ ElementData.Delete = function(theElement, key)
 
   return true
 end
+
+addEventHandler("onElementDataChange", root, function(theName, theOldValue)
+  -- source = element, client, sourceResource
+
+  if ElementData.Get(source, theName) then
+    if cupd[source] then
+      if cupd[source][theName] then
+        local newVal = getElementData(source, theName)
+        ElementData.Set(source, theName, newVal, true, true)
+      else
+        -- manipulation
+      end
+    else
+      -- manipulation
+    end
+  end
+end)

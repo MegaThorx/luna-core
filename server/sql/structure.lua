@@ -103,7 +103,7 @@ SQL_STRUCTURE["accounts"] = {
 
 
 -- TABLE vehicles
-SQL_STRUCTURE["vehicles"] = {
+SQL_STRUCTURE["playervehicles"] = {
   id = {
     primarykey = true,
     datatype = "INT",
@@ -116,7 +116,129 @@ SQL_STRUCTURE["vehicles"] = {
   },
   owner = {
     datatype = "INT",
+    notnull = true,
+    custom = {
+      storeClient = true,
+      storeServer = true
+    }
+  },
+  model = {
+    datatype = "INT",
     notnull = true
+  },
+  x = {
+    datatype = "DOUBLE",
+    notnull = true
+  },
+  y = {
+    datatype = "DOUBLE",
+    notnull = true
+  },
+  z = {
+    datatype = "DOUBLE",
+    notnull = true
+  },
+  rx = {
+    datatype = "DOUBLE",
+    notnull = true
+  },
+  ry = {
+    datatype = "DOUBLE",
+    notnull = true
+  },
+  rz = {
+    datatype = "DOUBLE",
+    notnull = true
+  },
+  color1r = {
+    datatype = "INT",
+    default = 0,
+    custom = {
+      storeClient = true,
+      storeServer = true,
+      autoSave = true
+    }
+  },
+  color1g = {
+    datatype = "INT",
+    default = 0,
+    custom = {
+      storeClient = true,
+      storeServer = true,
+      autoSave = true
+    }
+  },
+  color1b = {
+    datatype = "INT",
+    default = 0,
+    custom = {
+      storeClient = true,
+      storeServer = true,
+      autoSave = true
+    }
+  },
+  color2r = {
+    datatype = "INT",
+    default = 0,
+    custom = {
+      storeClient = true,
+      storeServer = true,
+      autoSave = true
+    }
+  },
+  color2g = {
+    datatype = "INT",
+    default = 0,
+    custom = {
+      storeClient = true,
+      storeServer = true,
+      autoSave = true
+    }
+  },
+  color2b = {
+    datatype = "INT",
+    default = 0,
+    custom = {
+      storeClient = true,
+      storeServer = true,
+      autoSave = true
+    }
+  },
+  lightr = {
+    datatype = "INT",
+    default = 0,
+    custom = {
+      storeClient = true,
+      storeServer = true,
+      autoSave = true
+    }
+  },
+  lightb = {
+    datatype = "INT",
+    default = 0,
+    custom = {
+      storeClient = true,
+      storeServer = true,
+      autoSave = true
+    }
+  },
+  lightg = {
+    datatype = "INT",
+    default = 0,
+    custom = {
+      storeClient = true,
+      storeServer = true,
+      autoSave = true
+    }
+  },
+  fuel = {
+    datatype = "INT",
+    default = 1000,
+    custom = {
+      storeClient = true,
+      storeServer = true,
+      autoSave = true
+    }
   }
 }
 

@@ -7,6 +7,7 @@ addEventHandler("onResourceStart", resourceRoot, function()
   SQL_MANAGER.Validate()
   Translations.Init()
   Bank.Init()
+  PlayerVehicle.Init()
   setFPSLimit(60)
 end)
 

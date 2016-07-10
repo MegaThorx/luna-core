@@ -15,6 +15,8 @@ addEventHandler("onClientResourceStart", resourceRoot, function()
   Binds.Init()
   Scoreboard.Init()
   Bank.Init()
+  PlayerVehicle.Init()
+  PlayerHouse.Init()
 
   addEventHandler("onClientBrowserCreated", GUI.browser,
     function()

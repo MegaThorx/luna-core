@@ -54,15 +54,7 @@ Account.Autologin = function(player, autologin)
 end
 
 Account.SetLoginData = function(player, data)
-  for k,v in pairs(data) do
-    if (SQL_STRUCTURE["accounts"][k].custom and (SQL_STRUCTURE["accounts"][k].custom.storeClient or SQL_STRUCTURE["accounts"][k].custom.storeServer)) then
-      if SQL_STRUCTURE["accounts"][k].custom.storeClient then
-        ElementData.Set(player, k, v, true)
-      else
-        ElementData.Set(player, k, v, false)
-      end
-    end
-  end
+  Element.SetData(player, data, "accounts")
 
   if Account.timers[player] then
     killTimer(Account.timers[player])
@@ -132,6 +124,8 @@ end
 Account.SavePlayerData = function(player)
 
   ElementData.Set(player, "lastonline", Time.GetTimestamp())
+  Element.SaveData(player, "accounts")
+  --[[
   local query = "UPDATE accounts SET "
   for k,v in pairs(SQL_STRUCTURE["accounts"]) do
     if SQL_STRUCTURE["accounts"][k].custom and SQL_STRUCTURE["accounts"][k].custom.autoSave then
@@ -143,7 +137,8 @@ Account.SavePlayerData = function(player)
   end
   query = query.." WHERE id = ?"
 
-  SQL.Exec(query, ElementData.Get(player, "id"))
+  SQL.Exec(query, ElementData.Get(player, "id"))]]
+  
 end
 
 Account.Register = function(player, username, email, password, password2, rules)

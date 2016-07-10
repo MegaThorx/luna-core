@@ -74,7 +74,7 @@ addEventHandler("successAccountLogin", root, function()
     end
   end)
 
-  GUI.LoadPage("gui")
+  GUI.LoadPage("gui_new")
 
 end)
 
@@ -99,6 +99,7 @@ addEventHandler("errorAccountLogin", root, function(error)
 end)
 
 addEventHandler("errorAccountRegister", root, function(error)
+  outputChatBox(error)
   isBlocked = false
 end)
 

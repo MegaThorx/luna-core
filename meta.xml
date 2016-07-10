@@ -22,6 +22,8 @@
   <script src="server/helpers/elementdata.lua" type="server" />
   <script src="server/helpers/sql.lua" type="server" />
   <script src="server/helpers/player.lua" type="server" />
+  <script src="server/helpers/vehicle.lua" type="server" />
+  <script src="server/helpers/element.lua" type="server" />
 
   <script src="server/sql/manager.lua" type="server" />
   <script src="server/sql/structure.lua" type="server" />
@@ -29,8 +31,12 @@
   <script src="server/translations.lua" type="server" />
   <script src="server/events.lua" type="server" />
   <script src="server/player.lua" type="server" />
+  <script src="server/playervehicle.lua" type="server" />
   <script src="server/bank.lua" type="server" />
   <script src="server/account.lua" type="server" />
+  <script src="server/teamspeak.lua" type="server" />
+  <script src="server/nonsense.lua" type="server" />
+  <script src="server/admin.lua" type="server" />
   <script src="server/main.lua" type="server" />
   <!-- End Server -->
 
@@ -46,7 +52,10 @@
   <script src="client/hud.lua" type="client" cache="false"/>
   <script src="client/binds.lua" type="client" cache="false"/>
   <script src="client/scoreboard.lua" type="client" cache="false"/>
+  <script src="client/tuning.lua" type="client" cache="false"/>
   <script src="client/bank.lua" type="client" cache="false"/>
+  <script src="client/playervehicle.lua" type="client" cache="false"/>
+  <script src="client/playerhouse.lua" type="client" cache="false"/>
 
   <script src="client/nonsense.lua" type="client" cache="false"/>
 
@@ -55,6 +64,8 @@
 
   <!-- Files -->
   <file src="files/html/css/uikit.min.css" />
+  <file src="files/html/css/materialize.min.css" />
+  <file src="files/html/css/material-icons.css" />
   <file src="files/html/css/uikit.gradient.min.css" />
   <file src="files/html/css/uikit.almost-flat.min.css" />
 
@@ -120,6 +131,9 @@
 
   <file src="files/html/js/uikit.min.js" />
   <file src="files/html/js/translate.js" />
+  <file src="files/html/js/helper.js" />
+  <file src="files/html/js/materialize.min.js" />
+  <file src="files/html/js/jquery-2.1.1.min.js" />
   <file src="files/html/js/jquery-3.0.0.min.js" />
   <file src="files/html/js/jquery.form.min.js" />
 
@@ -166,9 +180,64 @@
   <file src="files/html/fonts/fontawesome-webfont.ttf" />
   <file src="files/html/fonts/fontawesome-webfont.woff" />
   <file src="files/html/fonts/fontawesome-webfont.woff2" />
+  <file src="files/html/fonts/roboto/Roboto-Thin.woff2" />
+  <file src="files/html/fonts/roboto/Roboto-Thin.woff" />
+  <file src="files/html/fonts/roboto/Roboto-Thin.ttf" />
+  <file src="files/html/fonts/roboto/Roboto-Thin.eot" />
+  <file src="files/html/fonts/roboto/Roboto-Regular.woff2" />
+  <file src="files/html/fonts/roboto/Roboto-Regular.woff" />
+  <file src="files/html/fonts/roboto/Roboto-Regular.ttf" />
+  <file src="files/html/fonts/roboto/Roboto-Regular.eot" />
+  <file src="files/html/fonts/roboto/Roboto-Medium.woff2" />
+  <file src="files/html/fonts/roboto/Roboto-Medium.woff" />
+  <file src="files/html/fonts/roboto/Roboto-Medium.ttf" />
+  <file src="files/html/fonts/roboto/Roboto-Medium.eot" />
+  <file src="files/html/fonts/roboto/Roboto-Light.woff2" />
+  <file src="files/html/fonts/roboto/Roboto-Light.woff" />
+  <file src="files/html/fonts/roboto/Roboto-Light.ttf" />
+  <file src="files/html/fonts/roboto/Roboto-Light.eot" />
+  <file src="files/html/fonts/roboto/Roboto-Bold.woff2" />
+  <file src="files/html/fonts/roboto/Roboto-Bold.woff" />
+  <file src="files/html/fonts/roboto/Roboto-Bold.ttf" />
+  <file src="files/html/fonts/roboto/Roboto-Bold.eot" />
+
+  <file src="files/html/font/roboto/Roboto-Thin.woff2" />
+  <file src="files/html/font/roboto/Roboto-Thin.woff" />
+  <file src="files/html/font/roboto/Roboto-Thin.ttf" />
+  <file src="files/html/font/roboto/Roboto-Thin.eot" />
+  <file src="files/html/font/roboto/Roboto-Regular.woff2" />
+  <file src="files/html/font/roboto/Roboto-Regular.woff" />
+  <file src="files/html/font/roboto/Roboto-Regular.ttf" />
+  <file src="files/html/font/roboto/Roboto-Regular.eot" />
+  <file src="files/html/font/roboto/Roboto-Medium.woff2" />
+  <file src="files/html/font/roboto/Roboto-Medium.woff" />
+  <file src="files/html/font/roboto/Roboto-Medium.ttf" />
+  <file src="files/html/font/roboto/Roboto-Medium.eot" />
+  <file src="files/html/font/roboto/Roboto-Light.woff2" />
+  <file src="files/html/font/roboto/Roboto-Light.woff" />
+  <file src="files/html/font/roboto/Roboto-Light.ttf" />
+  <file src="files/html/font/roboto/Roboto-Light.eot" />
+  <file src="files/html/font/roboto/Roboto-Bold.woff2" />
+  <file src="files/html/font/roboto/Roboto-Bold.woff" />
+  <file src="files/html/font/roboto/Roboto-Bold.ttf" />
+
+  <file src="files/html/font/material-design-icons/Material-Design-Icons.woff2" />
+  <file src="files/html/font/material-design-icons/Material-Design-Icons.woff" />
+  <file src="files/html/font/material-design-icons/Material-Design-Icons.ttf" />
+  <file src="files/html/font/material-design-icons/Material-Design-Icons.svg" />
+  <file src="files/html/font/material-design-icons/Material-Design-Icons.eot" />
+
+  <file src="files/html/font/material-icons.woff2" />
 
   <file src="files/html/index.html" />
   <file src="files/html/gui.html" />
+  <file src="files/html/gui_new.html" />
+  <file src="files/html/login.html" />
+
+  <file src="files/shaders/texture.fx" />
+  <file src="files/shaders/texture_rep.fx" />
+
+  <file src="files/images/textures/camo.jpg" />
 
   <file src="files/images/radar/blip.png" />
   <file src="files/images/radar/blip_down.png" />

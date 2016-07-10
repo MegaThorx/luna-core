@@ -40,7 +40,7 @@ Bank.CreateAtmMarker = function(element)
     if mz < 0 then mz = mz * -1 end
     if mz > 2 then return end
     if player ~= localPlayer then return end
-    GUI.ExecuteJavascript('UIkit.modal("#bank-window").show();')
+    GUI.ExecuteJavascript('openModal("#modal-atm");')
     triggerServerEvent("getAtmBalance", localPlayer)
 
     Cursor.Show()
@@ -50,10 +50,11 @@ end
 
 addEvent("setAtmBalance", true)
 addEventHandler("setAtmBalance", root, function(amount)
+  GUI.ExecuteJavascript('$("#atm-amount").val("")')
   GUI.ExecuteJavascript('$("#atm-balance").text("'..Formatting.Currency(amount)..'")')
 end)
 
-GUI.AddWindowCloseHandler("bank-window", function()
+GUI.AddWindowCloseHandler("modal-atm", function()
   Cursor.Hide()
   Cursor.UnblockBinds()
 end)

@@ -20,7 +20,8 @@ _CONFIG["payday.interest.max"] = 20000
 _CONFIG["teamspeak.query.username"] = "serveradmin"
 _CONFIG["teamspeak.query.password"] = "xxxxxxxxx"
 _CONFIG["teamspeak.query.port"] = 10011
-_CONFIG["teamspeak.api"] = "http://www.mydomain.com/ts_connect.php"
+_CONFIG["teamspeak.api"] = "http://game.megathorx.at/ts_connect.php"
+_CONFIG["teamspeak.token"] = "anotherKey" --"AssdkLJXVLisadkm,jNM;Asd"
 
 -- TODO move to shared config
 _CONFIG["teamspeak.ip"] = 10011

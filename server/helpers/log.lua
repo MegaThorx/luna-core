@@ -10,6 +10,14 @@ Log.PrintServer = function(message, ...)
   Log.Print({["message"] = string.format(message, ...)}, "server")
 end
 
+Log.PrintCheatAttempt = function(message, client)
+  --outputServerLog(string.format(message, client))
+  local serial = getPlayerSerial(client)
+  local id = ElementData.Get(client, "id")
+
+  Log.Print({["message"] = string.format(message), ["serial"] = serial, ["account"] = tostring(id)}, "cheaters")
+end
+
 Log.Print = function(entry, dir)
   local content = {}
   local file

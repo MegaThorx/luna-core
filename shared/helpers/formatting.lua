@@ -2,7 +2,7 @@ Formatting = {}
 
 Formatting.Currency = function(clientOrAmount, amount)
   if localPlayer then
-    return Formatting.FormatNum(clientOrAmount, 2, "€ ", nil, Translations.GetCurrencyFormat())
+    return Formatting.FormatNum(clientOrAmount, 0, "", nil, Translations.GetCurrencyFormat())
   else
 
   end
