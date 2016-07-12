@@ -37,7 +37,7 @@ GUI.Init = function()
 end
 
 GUI.InitRendering = function()
-  loadBrowserURL(GUI.browser, "http://mta/" .. getResourceName(getThisResource()) .. "/files/html/index.html")
+  loadBrowserURL(GUI.browser, "http://mta/" .. getResourceName(getThisResource()) .. "/files/html/login.html")
   if(Config.Get("browserdebugging") and getPlayerName(localPlayer) == "MegaThorx")then
     toggleBrowserDevTools(GUI.browser, true)
   end
@@ -50,6 +50,13 @@ GUI.LoadPage = function(page)
   loadBrowserURL(GUI.browser, "http://mta/" .. getResourceName(getThisResource()) .. "/files/html/"..page..".html")
 end
 
+GUI.GetCurrentPage = function()
+  local url = getBrowserURL(GUI.browser)
+  local page = string.gsub(url, "http://mta/" .. getResourceName(getThisResource()) .. "/files/html/", "")
+  page = string.gsub(page, ".html", "")
+  if isBrowserLoading(GUI.browser) then page = "" end
+  return page
+end
 
 GUI.InitReady = function()
   GUI.isReady = true

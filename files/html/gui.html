@@ -1,36 +1,94 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title></title>
   <meta charset="utf-8"/>
-  <link rel="stylesheet" href="http://mta/core/files/html/css/uikit.min.css" />
-  <script src="http://mta/core/files/html/js/jquery-3.0.0.min.js"></script>
-  <script src="http://mta/core/files/html/js/jquery.form.min.js"></script>
-  <script src="http://mta/core/files/html/js/uikit.min.js"></script>
-  <script src="http://mta/core/files/html/js/translate.js"></script>
-</head>
-<body>
- <!-- <button class="uk-button" data-uk-modal="{target:'#bank-window'}">Bank</button> -->
+  <!--Import Google Icon Font-->
+  <link href="http://mta/core/files/html/css/material-icons.css" rel="stylesheet">
+  <!--Import materialize.css-->
+  <link type="text/css" rel="stylesheet" href="http://mta/core/files/html/css/materialize.min.css"  media="screen,projection"/>
 
-  <!-- This is the modal -->
-  <div id="bank-window" class="uk-modal">
-    <div class="uk-modal-dialog" style="width: 220px;">
-      <a class="uk-modal-close uk-close"></a>
-      <form id="bank" class="uk-form">
-        <legend class="translate">BANK_ATM</legend>
-        <span class="translate">BANK_BALANCE</span> <span id="atm-balance"></span>
-        <input type="text" id="atm-amount" class="translate" placeholder="BANK_AMOUNT" style="margin-bottom: 10px; margin-top: 10px">
-        <button id="atm-payin" class="translate uk-button uk-button-primary">BANK_PAYIN</button>
-        <button id="atm-payout" class="translate uk-button uk-button-primary">BANK_PAYOUT</button>
-      </form>
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+
+<body>
+  <!-- Modal Structure -->
+  <div id="modal-atm" class="modal" style="width: 380px;">
+    <a class="modal-close right material-icons" style="margin-right: 10px; margin-top: 10px; color: #BDBDBD;">close</a>
+    <div class="modal-content">
+      <h4 class="translate">BANK_ATM</h4>
+      <div class="row">
+        <form class="col s12">
+          <div class="row">
+            <span>Kontonumer 100001</span><br>
+            <span><span class="translate">BANK_BALANCE</span> € <span id="atm-balance"></span></span>
+          </div>
+          <div class="row">
+            <div class="input-field">
+              <input id="atm-amount" type="number" class="validate">
+              <label for="amount"class="translate">BANK_AMOUNT</label>
+            </div>
+          </div>
+          <div class="row">
+            <button id="atm-payin" class="waves-effect waves-light btn modal-action">Einzahlen</button>
+            <button id="atm-payout" class="waves-effect waves-light btn modal-action right">Abheben</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 
+
+
+  <div id="dialog-tuning" style="position: absolute; right: 3px; top: 3px; z-index: -1; visibility: hidden;">
+    <a href="#" class="btn waves-effect waves-light grey" style="margin-bottom: 3px; width: 150px;">Tuning</a><br>
+    <a href="#" class="btn waves-effect waves-light grey" style="margin-bottom: 3px; width: 150px;">Wheels</a><br>
+    <a href="#" class="btn waves-effect waves-light grey" style="margin-bottom: 3px; width: 150px;">Spoiler</a><br>
+    <a href="#" class="btn waves-effect waves-light grey" style="margin-bottom: 3px; width: 150px;">Exhaust</a><br>
+    <a href="#" class="btn waves-effect waves-light grey" style="margin-bottom: 3px; width: 150px;">Nitro</a><br>
+    <a href="#" class="btn waves-effect waves-light grey" style="margin-bottom: 3px; width: 150px;">Paintjob</a><br>
+    <a href="#" class="btn waves-effect waves-light grey" style="margin-bottom: 3px; width: 150px;">Color</a><br>
+    <a href="#" class="btn waves-effect waves-light grey" style="margin-bottom: 3px; width: 150px;">Lightcolor</a><br>
+    <a href="#" class="btn waves-effect waves-light grey" style="margin-bottom: 3px; width: 150px;">Hydraulics</a><br>
+    <a href="#" class="btn waves-effect waves-light black" style="margin-bottom: 3px; width: 150px;">Close</a><br>
+  </div>
+
+
+  <div id="dialog-tuning-wheels" style="position: absolute; right: 3px; top: 3px; z-index: -1; visibility: hidden;">
+    <a href="#" class="btn waves-effect waves-light grey" style="margin-bottom: 3px; width: 150px;">Off Road</a><br>
+    <a href="#" class="btn waves-effect waves-light grey" style="margin-bottom: 3px; width: 150px;">Shadow</a><br>
+    <a href="#" class="btn waves-effect waves-light grey" style="margin-bottom: 3px; width: 150px;">Mega</a><br>
+    <a href="#" class="btn waves-effect waves-light grey" style="margin-bottom: 3px; width: 150px;">Rimshine</a><br>
+    <a href="#" class="btn waves-effect waves-light grey" style="margin-bottom: 3px; width: 150px;">Wires</a><br>
+    <a href="#" class="btn waves-effect waves-light grey" style="margin-bottom: 3px; width: 150px;">Classic</a><br>
+    <a href="#" class="btn waves-effect waves-light grey" style="margin-bottom: 3px; width: 150px;">Twist</a><br>
+    <a href="#" class="btn waves-effect waves-light grey" style="margin-bottom: 3px; width: 150px;">Cutter</a><br>
+    <a href="#" class="btn waves-effect waves-light grey" style="margin-bottom: 3px; width: 150px;">Switch</a><br>
+    <a href="#" class="btn waves-effect waves-light grey" style="margin-bottom: 3px; width: 150px;">Grove</a><br>
+    <a href="#" class="btn waves-effect waves-light grey" style="margin-bottom: 3px; width: 150px;">Import</a><br>
+    <a href="#" class="btn waves-effect waves-light grey" style="margin-bottom: 3px; width: 150px;">Dollar</a><br>
+    <a href="#" class="btn waves-effect waves-light grey" style="margin-bottom: 3px; width: 150px;">Atomic</a><br>
+    <a href="#" class="btn waves-effect waves-light grey" style="margin-bottom: 3px; width: 150px;">Ahab</a><br>
+    <a href="#" class="btn waves-effect waves-light grey" style="margin-bottom: 3px; width: 150px;">Virtual</a><br>
+    <a href="#" class="btn waves-effect waves-light grey" style="margin-bottom: 3px; width: 150px;">Access</a><br>
+    <a href="#" class="btn waves-effect waves-light black" style="margin-bottom: 3px; width: 150px;">Close</a><br>
+  </div>
+
+
+  <!--Import jQuery before materialize.js-->
+  <script type="text/javascript" src="http://mta/core/files/html/js/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="http://mta/core/files/html/js/materialize.min.js"></script>
+  <script type="text/javascript" src="http://mta/core/files/html/js/helper.js"></script>
+  <script type="text/javascript" src="http://mta/core/files/html/js/translate.js"></script>
   <script>
-  /*$("#bank").on("submit", function(e){
-    e.preventDefault();
-    $("#bank").ajaxSubmit({url: "http://mta/local/ajax.htm?bank", type: 'post'})
-  });*/
+  $(document).ready(function(){
+    $('.modal-trigger').leanModal({
+      dismissible: false , // Modal can be dismissed by clicking outside of the modal
+      opacity: 0.5, // Opacity of modal background
+      in_duration: 0, // Transition in duration
+      out_duration: 0 // Transition out duration
+    });
+  });
 
   $("#atm-payin").on("click", function(e){
     e.preventDefault();
@@ -44,9 +102,6 @@
     $.ajax({url: "http://mta/local/ajax.htm?atmPayout", method: "POST", data: {amount: amount}});
   });
 
-  $(document).ready(function(){
-    UIkit.modal("#bank-window").options.center = true;
-  });
   </script>
 </body>
 </html>

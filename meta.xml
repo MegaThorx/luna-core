@@ -48,6 +48,7 @@
   <script src="client/gui.lua" type="client" cache="false"/>
   <script src="client/account.lua" type="client" cache="false"/>
   <script src="client/translation.lua" type="client" cache="false"/>
+  <script src="client/toast.lua" type="client" cache="false"/>
   <script src="client/radar.lua" type="client" cache="false"/>
   <script src="client/models.lua" type="client" cache="false"/>
   <script src="client/hud.lua" type="client" cache="false"/>
@@ -237,6 +238,7 @@
 
   <file src="files/shaders/texture.fx" />
   <file src="files/shaders/texture_rep.fx" />
+  <file src="files/shaders/blur.fx" />
 
   <file src="files/images/textures/camo.jpg" />
 

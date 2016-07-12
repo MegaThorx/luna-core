@@ -9,6 +9,7 @@ addEventHandler("onClientResourceStart", resourceRoot, function()
 
   GUI.Init()
   Translations.Init()
+  Toast.Init()
   Radar.Init()
   HUD.Init()
   Models.Init()
@@ -26,7 +27,7 @@ addEventHandler("onClientResourceStart", resourceRoot, function()
 
   addEventHandler ( "onClientBrowserDocumentReady" , GUI.browser,
   	function ( url )
-        if url == "http://mta/" .. getResourceName(getThisResource()) .. "/files/html/index.html" then
+        if url == "http://mta/" .. getResourceName(getThisResource()) .. "/files/html/login.html" then
           GUI.InitReady()
           if fileExists("autologin.dat") then
             local token = ""

@@ -50,7 +50,7 @@ end
 
 addEvent("setAtmBalance", true)
 addEventHandler("setAtmBalance", root, function(amount)
-  GUI.ExecuteJavascript('$("#atm-amount").val("")')
+  GUI.ExecuteJavascript('$("#atm-amount").val(""); $("#atm-amount").removeClass("valid"); $($("#atm-amount").parent().children()[1]).removeClass("active");')
   GUI.ExecuteJavascript('$("#atm-balance").text("'..Formatting.Currency(amount)..'")')
 end)
 

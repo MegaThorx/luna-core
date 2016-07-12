@@ -277,6 +277,7 @@ ORM.GenerateObject = function(tableName, data)
       local handle = SQL.Query("UPDATE `".. tableName .."` SET "..upd.." WHERE id = ?", data.id)
       local _, count = SQL.Poll(handle, -1)
       if count == 1 then
+        modified = {}
         return true
       end
     else
@@ -303,6 +304,7 @@ ORM.GenerateObject = function(tableName, data)
       local handle = SQL.Query(ins)
       local _, count = SQL.Poll(handle, -1)
       if count == 1 then
+        modified = {}
         return true
       end
     end

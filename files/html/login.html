@@ -2,20 +2,15 @@
 <html>
 <head>
   <!--Import Google Icon Font-->
-  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="http://mta/core/files/html/css/material-icons.css" rel="stylesheet">
   <!--Import materialize.css-->
-  <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+  <link type="text/css" rel="stylesheet" href="http://mta/core/files/html/css/materialize.min.css"  media="screen,projection"/>
 
   <!--Let browser know website is optimized for mobile-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 </head>
 
 <body>
-  <!-- Modal Trigger -->
-  <!--
-  <a class="waves-effect waves-light btn modal-trigger" href="#modal-login">Login</a>
-  <a class="waves-effect waves-light btn modal-trigger" href="#modal-register">Register</a>
-  -->
   <!-- Modal Structure -->
   <div id="modal-login" class="modal" style="width: 400px;">
     <div class="modal-content">
@@ -91,28 +86,37 @@
   </div>
 
   <!--Import jQuery before materialize.js-->
-  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
-  <script type="text/javascript" src="js/materialize.min.js"></script>
+  <script type="text/javascript" src="http://mta/core/files/html/js/jquery-2.1.1.min.js"></script>
+  <script type="text/javascript" src="http://mta/core/files/html/js/materialize.min.js"></script>
+  <script type="text/javascript" src="http://mta/core/files/html/js/helper.js"></script>
+  <script type="text/javascript" src="http://mta/core/files/html/js/translate.js"></script>
   <script>
   $(document).ready(function(){
     /*
     // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
-    $('.modal-trigger').leanModal({
-      dismissible: false , // Modal can be dismissed by clicking outside of the modal
-      opacity: 0.5, // Opacity of modal background
-      in_duration: 0, // Transition in duration
-      out_duration: 0 // Transition out duration
-    });*/
+    $('.modal-trigger').leanModal();*/
 
 
     $('#show-register-modal').on("click", function(){
-      $('#modal-login').closeModal();
-      $('#modal-register').openModal();
+      $('#modal-login').closeModal({
+        out_duration: 0
+      });
+      $('#modal-register').openModal({
+        dismissible: false,
+        opacity: 0.0,
+        in_duration: 0
+      });
     });
 
     $('#show-login-modal').on("click", function(){
-      $('#modal-register').closeModal();
-      $('#modal-login').openModal();
+      $('#modal-register').closeModal({
+        out_duration: 0
+      });
+      $('#modal-login').openModal({
+        dismissible: false,
+        opacity: 0.0,
+        in_duration: 0
+      });
     });
   });
   </script>

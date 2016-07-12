@@ -12,7 +12,7 @@ Bank.ProcessTransactions = function()
   local result, count = SQL.Poll(handle, -1)
 
   for k,v in pairs(result) do
-    Bank.ProcessTransaction(v["id"])
+    Bank.ProcessTransaction(v["accounts.id"])
   end
 end
 
@@ -285,7 +285,7 @@ addEvent("takeAtmMoney", true)
 addEvent("giveAtmMoney", true)
 
 addEventHandler("takeAtmMoney", root, function(amount)
-  local id = ElementData.Get(client, "id")
+  local id = ElementData.Get(client, "accounts.id")
   local main = Bank.GetMainAccount(id)
 
   if main then
@@ -298,7 +298,7 @@ addEventHandler("takeAtmMoney", root, function(amount)
 end)
 
 addEventHandler("giveAtmMoney", root, function(amount)
-  local id = ElementData.Get(client, "id")
+  local id = ElementData.Get(client, "accounts.id")
   local main = Bank.GetMainAccount(id)
   if main then
     local balance = Player.GetMoney()
@@ -315,7 +315,7 @@ addEventHandler("getAtmBalance", root, function()
 end)
 
 Bank.GetAtmBalance = function()
-    local id = ElementData.Get(client, "id")
+    local id = ElementData.Get(client, "accounts.id")
     local main = Bank.GetMainAccount(id)
 
     if main then
@@ -327,7 +327,7 @@ Bank.GetAtmBalance = function()
 end
 
 addEventHandler("getBankAccounts", root, function()
-  local id = ElementData.Get(client, "id")
+  local id = ElementData.Get(client, "accounts.id")
 
   if id then
     Bank.GetPlayerAccounts(id)
@@ -335,7 +335,7 @@ addEventHandler("getBankAccounts", root, function()
 end)
 
 addEventHandler("getAccountTransactionFeed", root, function(account, amount)
-  local id = ElementData.Get(client, "id")
+  local id = ElementData.Get(client, "accounts.id")
   local account_id = Bank.GetAccountOwner(account)
 
   if id and owner and account_id == id then -- TODO add exeption for admins?
@@ -345,14 +345,14 @@ end)
 
 
 addEventHandler("takeAccountMoney", root, function(account, amount)
-  local id = ElementData.Get(client, "id")
+  local id = ElementData.Get(client, "accounts.id")
   local account_id = Bank.GetAccountOwner(account)
 
 
 end)
 
 addEventHandler("giveAccountMoney", root, function(account, amount)
-  local id = ElementData.Get(client, "id")
+  local id = ElementData.Get(client, "accounts.id")
   local account_id = Bank.GetAccountOwner(account)
 
 end)

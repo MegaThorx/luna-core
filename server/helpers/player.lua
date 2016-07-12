@@ -15,13 +15,13 @@ Player.GiveMoney = function(player, amount)
 end
 
 Player.GetMoney = function(player)
-  return ElementData.Get(player, "money")
+  return ElementData.Get(player, "accounts.money")
 end
 
 Player.SetMoney = function(player, amount)
-  return ElementData.Set(player, "money", amount, true)
+  return ElementData.Set(player, "accounts.money", amount, true)
 end
 
 Player.GetId = function(player)
-  return ElementData.Get(player, "id")
+  return ElementData.Get(player, "accounts.id")
 end
