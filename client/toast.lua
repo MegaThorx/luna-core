@@ -1,6 +1,5 @@
 Toast = {}
 Toast.toasts = {}
-Toast.ready = false
 
 Toast.Init = function()
   setTimer(Toast.Process, 100, 1)
@@ -15,18 +14,19 @@ Toast.Add = function(time, message, ...)
 
   table.insert(Toast.toasts, {time = time, message = msg})
 
-  if Toast.ready then
+  if not GUI.IsLoading() then
     Toast.Process()
+  else
+    setTimer(Toast.Process, 100, 1)
   end
 end
 
 Toast.Process = function()
-  if GUI.GetCurrentPage() == "gui" then
+  if not GUI.IsLoading() then
     for i, v in ipairs(Toast.toasts) do
       GUI.ExecuteJavascript('Materialize.toast("'..v.message..'", '..v.time..');')
     end
     Toast.toasts = {}
-    Toast.ready = true
   else
     setTimer(Toast.Process, 100, 1)
   end

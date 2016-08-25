@@ -4685,7 +4685,7 @@ small {
 
 @media only screen and (min-width: 993px) {
   #toast-container {
-    top: 10%;
+    top: 240px;
     right: 7%;
     max-width: 86%;
   }
@@ -4696,7 +4696,7 @@ small {
   top: 0;
   width: auto;
   clear: both;
-  margin-top: 140px;
+  margin-top: 5px;
   position: relative;
   max-width: 100%;
   height: auto;

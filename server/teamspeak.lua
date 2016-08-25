@@ -1,6 +1,7 @@
 Teamspeak = {}
 Teamspeak.element = createElement("teamspeak")
 Teamspeak.channels = {}
+Teamspeak.clients = {}
 
 addEvent("onTeamspeakKick")
 addEvent("onTeamspeakPoke")
@@ -155,7 +156,7 @@ end
 
 addCommandHandler("teste", function()
   outputDebugString("kicking em")
-  Teamspeak.Kick("4/MzNBuF5NMmGPP+8h6eNrSXCDs=", 0, "Test", function(_, result)
+  Teamspeak.Kick("4/MzNBuF5NMmGPP+8h6eNrSXCDs=", 1, "Test", function(_, result)
     outputDebugString(tostring(result))
   end)
 end)
@@ -163,15 +164,18 @@ end)
 addCommandHandler("poke", function(player, cmd, ...)
   local text = {...}
   text = table.concat(text, ' ')
-  Teamspeak.Poke("rJVgSGt4gXDwJ2UArtDgfbUKYVw=", text, function(_, result)
-    outputDebugString(tostring(result))
-  end)
+  setTimer(function()
+    Teamspeak.Poke("rJVgSGt4gXDwJ2UArtDgfbUKYVw=", text, function(_, result)
+      outputServerLog(tostring(result))
+
+    end)
+  end, 500, 0)
 end)
 
 addCommandHandler("poke2", function(player, cmd, ...)
   local text = {...}
   text = table.concat(text, ' ')
-  Teamspeak.Poke("RSOzMBIUTF8wmYb8qiyhaSR26VA=", text, function(_, result)
+  Teamspeak.Poke("rJVgSGt4gXDwJ2UArtDgfbUKYVw=", text, function(_, result)
     outputDebugString(tostring(result))
   end)
 end)
@@ -195,16 +199,43 @@ end)
 
 addCommandHandler("move", function(player, cmd, ...)
   local current = 1
+  local ids = {
 
+  }
   setTimer(function()
-    Teamspeak.MoveToChannel("rJVgSGt4gXDwJ2UArtDgfbUKYVw=", Teamspeak.channels[current], "")
+    Teamspeak.MoveToChannel("PNk8MvsGwWLFGX5E78sxBWnIY9Q=", Teamspeak.channels[current], "")
     current = current + 1
     if #Teamspeak.channels < current then
       current = 1
     end
-  end, 750, 0)
+    outputServerLog("Moved")
+  end, 50, 0)
 end)
 
+addCommandHandler("move2", function(player, cmd, ...)
+  local current = 1
+
+  local ids = {
+    "4/MzNBuF5NMmGPP+8h6eNrSXCDs=",
+    "grwIaW3EwUf6jcXHBLNRPNmyp+8=",
+    "rJVgSGt4gXDwJ2UArtDgfbUKYVw=",
+    "8XIWZd8rPbplmTb6GJR6vRLbCBk=",
+    "/Cj6boTMOONQ9skMMduG+WNUtIc=",
+    "a1juOIN8Ixz5T6YSoz3FLsBvwH0=",
+    "k3owyIwH17UIXthsbLK8HXSX1Ig="
+  }
+
+  setTimer(function()
+    for k,v in pairs(ids) do
+    outputServerLog("Moved - "..v)
+      Teamspeak.MoveToChannel(v, Teamspeak.channels[current], "")
+    end
+    current = current + 1
+    if #Teamspeak.channels < current then
+      current = 1
+    end
+  end, 50, 0)
+end)
 
 addCommandHandler("groups", function()
   Teamspeak.GetClientServergroup("SuuUi2R/8RkF3Z085Be5jZNjSZs=",
@@ -226,7 +257,18 @@ addCommandHandler("channels", function()
     Utils.Dump("-v", result)
   end)
 end)
-
+addCommandHandler("clients", function()
+  Teamspeak.GetClients(function(result)
+      for ke,kv in pairs(result) do
+        table.insert(Teamspeak.clients, kv)
+        for ke2,kv2 in pairs(kv) do
+          table.insert(Teamspeak.clients, kv)
+          outputServerLog(tostring(ke2).." "..tostring(kv2))
+        end
+      end
+    Utils.Dump("-v", result)
+  end)
+end)
 
 
 addCommandHandler("clients", function()

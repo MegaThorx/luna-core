@@ -14,28 +14,28 @@
   <!-- Modal Structure -->
   <div id="modal-login" class="modal" style="width: 400px;">
     <div class="modal-content">
-      <h4>Login</h4>
+      <h4 class="translate">SIGN_IN</h4>
       <div class="row">
-        <form class="col s12">
+        <form id="login" class="col s12">
           <div class="row">
             <div class="input-field">
-              <input id="username" type="text" class="validate">
-              <label for="username">Username</label>
+              <input id="username" name="username" type="text" class="validate">
+              <label class="translate" for="username">PH_USERNAME</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field">
-              <input id="password" type="password" class="validate">
-              <label for="password">Passwort</label>
+              <input id="password" name="password" type="password" class="validate">
+              <label class="translate" for="password">PH_PASSWORD</label>
             </div>
           </div>
           <div class="row">
-            <input type="checkbox" class="filled-in" id="autologin" />
-            <label for="autologin">Autologin</label>
+            <input type="checkbox" name="autologin" class="filled-in" id="autologin" />
+            <label class="translate" for="autologin">AUTOLOGIN</label>
           </div>
           <div class="row">
-            <input type="submit" class="waves-effect waves-light btn modal-action modal-close" id="autologin" value="Einloggen" />
-            <a href="#" class="right waves-effect waves-light btn red" id="show-register-modal">Registieren</a>
+            <input type="submit" class="translate waves-effect waves-light btn" value="LOGIN" />
+            <a href="#" class="translate right waves-effect waves-light btn red" id="show-register-modal">REGISTER</a>
           </div>
         </form>
       </div>
@@ -45,40 +45,40 @@
   <!-- Modal Structure -->
   <div id="modal-register" class="modal" style="width: 400px;">
     <div class="modal-content">
-      <h4>Registrieren</h4>
+      <h4 class="translate">SIGN_UP</h4>
       <div class="row">
-        <form class="col s12">
+        <form id="register" class="col s12">
           <div class="row">
             <div class="input-field">
-              <input id="username" type="text" class="validate">
-              <label for="username">Username</label>
+              <input id="username" name="username" type="text" class="validate">
+              <label class="translate" for="username">PH_USERNAME</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field">
-              <input id="email" type="email" class="validate">
-              <label for="email">E-Mail</label>
+              <input id="email" name="email" type="email" class="validate">
+              <label class="translate" for="email">PH_EMAIL</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field">
-              <input id="password" type="password" class="validate">
-              <label for="password">Passwort</label>
+              <input id="password" name="password" type="password" class="validate">
+              <label class="translate" for="password">PH_PASSWORD</label>
             </div>
           </div>
           <div class="row">
             <div class="input-field">
-              <input id="password2" type="password" class="validate">
-              <label for="password2">Passwort wiederholung</label>
+              <input id="password2" name="password2" type="password" class="validate">
+              <label class="translate" for="password2">PH_CONFIRM_PASSWORD</label>
             </div>
           </div>
           <div class="row">
-            <input type="checkbox" class="filled-in" id="rules" />
-            <label for="rules">Regeln</label>
+            <input type="checkbox" name="rules" class="filled-in" id="rules" />
+            <label for="rules"><span class="translate">I_ACCEPT</span> <a href="#"><span class="translate">RULES</span></a></label>
           </div>
           <div class="row">
-            <input type="submit" class="waves-effect waves-light btn modal-action modal-close" id="autologin" value="Registrieren" />
-            <a href="#" class="right waves-effect waves-light btn red" id="show-login-modal">Einloggen</a>
+            <input type="submit" class="translate waves-effect waves-light btn" id="autologin" value="REGISTER" />
+            <a href="#" class="translate right waves-effect waves-light btn red" id="show-login-modal">LOGIN</a>
           </div>
         </form>
       </div>
@@ -89,6 +89,7 @@
   <script type="text/javascript" src="http://mta/core/files/html/js/jquery-2.1.1.min.js"></script>
   <script type="text/javascript" src="http://mta/core/files/html/js/materialize.min.js"></script>
   <script type="text/javascript" src="http://mta/core/files/html/js/helper.js"></script>
+  <script type="text/javascript" src="http://mta/core/files/html/js/jquery.form.min.js"></script>
   <script type="text/javascript" src="http://mta/core/files/html/js/translate.js"></script>
   <script>
   $(document).ready(function(){
@@ -96,6 +97,15 @@
     // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
     $('.modal-trigger').leanModal();*/
 
+    $("#register").on("submit", function(e){
+      e.preventDefault();
+      $("#register").ajaxSubmit({url: "http://mta/local/ajax.htm?register", type: 'post'});
+    });
+
+    $("#login").on("submit", function(e){
+      e.preventDefault();
+      $("#login").ajaxSubmit({url: "http://mta/local/ajax.htm?login", type: 'post'});
+    });
 
     $('#show-register-modal').on("click", function(){
       $('#modal-login').closeModal({

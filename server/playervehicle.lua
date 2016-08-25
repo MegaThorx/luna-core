@@ -26,8 +26,8 @@ end
 PlayerVehicle.Spawn = function(veh)
 
   local vehicle = Vehicle.Create(veh.GetModel(), veh.GetX(), veh.GetY(), veh.GetZ(), veh.GetRx(), veh.GetRy(), veh.GetRz())
-  setVehicleColor(vehicle, veh.Color1r(), veh.Color1g(), veh.Color1b(), veh.Color2r(), veh.Color2g(), veh.Color2b())
-  setVehicleHeadLightColor(vehicle, veh.Lightr(), veh.Lightg(), veh.Lightb())
+  setVehicleColor(vehicle, veh.GetColor1r(), veh.GetColor1g(), veh.GetColor1b(), veh.GetColor2r(), veh.GetColor2g(), veh.GetColor2b())
+  setVehicleHeadLightColor(vehicle, veh.GetLightr(), veh.GetLightg(), veh.GetLightb())
 
   veh.CopyDataToElement(vehicle)
   ElementData.Set(vehicle, "shader", true, true)

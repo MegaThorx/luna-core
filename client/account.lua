@@ -133,8 +133,8 @@ addEventHandler("successAccountLogin", root, function()
   Cursor.Hide()
   Cursor.UnblockBinds()
   Account.BlurEnd()
-  GUI.ExecuteJavascript('UIkit.modal("#login-window").hide();')
-  GUI.ExecuteJavascript('UIkit.modal("#register-window").hide();')
+  --GUI.ExecuteJavascript('UIkit.modal("#login-window").hide();')
+  --GUI.ExecuteJavascript('UIkit.modal("#register-window").hide();')
 
   bindKey("m", "down", function()
     if not Cursor.IsShowing() then

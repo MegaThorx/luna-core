@@ -14,6 +14,22 @@ Player.GiveMoney = function(player, amount)
   return true
 end
 
+Player.GiveBankMoney = function(player, amount, reason)
+  local mainAccount = Bank.GetMainAccount(Player.GetId(player))
+  if mainAccount then
+    return Bank.GiveMoney(mainAccount, amount, reason)
+  end
+  return false
+end
+
+Player.TakeBankMoney = function(player, amount, reason)
+  local mainAccount = Bank.GetMainAccount(Player.GetId(player))
+  if mainAccount then
+    return Bank.TakeMoney(mainAccount, amount, reason)
+  end
+  return false
+end
+
 Player.GetMoney = function(player)
   return ElementData.Get(player, "accounts.money")
 end

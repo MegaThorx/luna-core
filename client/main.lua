@@ -2,31 +2,46 @@ screenX, screenY = guiGetScreenSize()
 
 addEventHandler("onClientResourceStart", resourceRoot, function()
 
-  setBlurLevel(Config.Get("blurlevel"))
-  setFPSLimit(Config.Get("fpslimit"))
-  setDevelopmentMode(Config.Get("devmode"), Config.Get("devmode"))
+    setBlurLevel(Config.Get("blurlevel"))
+    setFPSLimit(Config.Get("fpslimit"))
+    setDevelopmentMode(Config.Get("devmode"), Config.Get("devmode"))
 
+    GUI.Init()
+    Translations.Init()
+    Toast.Init()
+    Radar.Init()
+    HUD.Init()
+    Models.Init()
+    Binds.Init()
+    Scoreboard.Init()
+    Inventory.Init()
+    Bank.Init()
+    PlayerVehicle.Init()
+    PlayerHouse.Init()
 
-  GUI.Init()
-  Translations.Init()
-  Toast.Init()
-  Radar.Init()
-  HUD.Init()
-  Models.Init()
-  Binds.Init()
-  Scoreboard.Init()
-  Bank.Init()
-  PlayerVehicle.Init()
-  PlayerHouse.Init()
+    local clientData = {}
 
-  addEventHandler("onClientBrowserCreated", GUI.browser,
-    function()
-      GUI.InitRendering()
+    clientData["resolution"] = {}
+    clientData["resolution"].screenX, clientData["resolution"].screenY = guiGetScreenSize()
+
+    clientData["version"] = {}
+    for k, v in pairs(getVersion()) do
+      clientData["version"][k] = v
     end
-  )
 
-  addEventHandler ( "onClientBrowserDocumentReady" , GUI.browser,
-  	function ( url )
+    clientData["dx"] = {}
+    for k, v in pairs(dxGetStatus()) do
+      clientData["dx"][k] = v
+    end
+
+    addEventHandler("onClientBrowserCreated", GUI.browser,
+      function()
+        GUI.InitRendering()
+      end
+    )
+
+    addEventHandler ( "onClientBrowserDocumentReady" , GUI.browser,
+      function ( url )
         if url == "http://mta/" .. getResourceName(getThisResource()) .. "/files/html/login.html" then
           GUI.InitReady()
           if fileExists("autologin.dat") then
@@ -35,11 +50,11 @@ addEventHandler("onClientResourceStart", resourceRoot, function()
             token = fileRead(file, fileGetSize(file))
             fileClose(file)
 
-            triggerServerEvent("onClientReady", localPlayer, token)
+            triggerServerEvent("onClientReady", localPlayer, token, toJSON(clientData))
           else
-            triggerServerEvent("onClientReady", localPlayer)
+            triggerServerEvent("onClientReady", localPlayer, nil, toJSON(clientData))
           end
         end
-  	end
-  )
-end)
+      end
+    )
+  end)

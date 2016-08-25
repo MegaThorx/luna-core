@@ -45,6 +45,7 @@ Bank.Transfer = function(playerId, fromAccount, toAccount, amount, reason)
   local playerIdFrom = Bank.GetAccountOwner(fromAccount)
   local playerIdTo = Bank.GetAccountOwner(toAccount)
   local canReceive = Bank.CanReceiveDirectPayments(toAccount)
+  local amount = math.floor(amount)
 
   if balance and transactionTime and transactionTimeTo and balance >= amount then
     if canReceive == 1 or playerIdFrom == playerIdTo then
@@ -68,6 +69,7 @@ Bank.TakeMoney = function(accountNumber, amount, reason)
   if amount < 0 or type(amount) ~= "number" then
     return false
   end
+  local amount = math.floor(amount)
 
   local balance = Bank.GetBalance(accountNumber)
 
@@ -91,6 +93,7 @@ Bank.GiveMoney = function(accountNumber, amount, reason)
   if amount < 0 or type(amount) ~= "number" then
     return false
   end
+  local amount = math.floor(amount)
 
   local handle = SQL.Query("INSERT INTO bankTransactions (`from`, `to`, amount, reason, creationTime, processingTime) VALUES (?, ?, ?, ?, ?, ?)", 0, accountNumber, amount, reason, Time.GetTimestamp(), 0)
 

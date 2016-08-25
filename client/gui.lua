@@ -58,6 +58,11 @@ GUI.GetCurrentPage = function()
   return page
 end
 
+GUI.IsLoading = function()
+  return isBrowserLoading(GUI.browser)
+end
+
+
 GUI.InitReady = function()
   GUI.isReady = true
 end

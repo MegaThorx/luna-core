@@ -9,8 +9,8 @@ Account.Login = function(player, username, password, autologin)
     triggerClientEvent(player, "errorAccountLogin", player, "NO_SUCH_ACCOUNT")
     return false
   end
-  outputDebugString(username)
-  if(true or account.GetPassword() == sha256(sha256(password)..account.GetSalt()))then
+
+  if(account.GetPassword() == sha256(password..account.GetSalt()))then
 
     Account.SetLoginData(player, account)
     triggerClientEvent(player, "successAccountLogin", player)
@@ -58,6 +58,7 @@ Account.SetLoginData = function(player, account)
 
   Account.timers[player] = setTimer(Account.IncreasePlaytime, 60 * 1000, 1, player)
 
+  Inventory.CacheInventory(player)
   Account.CreateFirstBankAccount(player)
   Player.Spawn(player)
 end
@@ -111,30 +112,14 @@ Account.ProcessPayday = function(player)
     end
     outputChatBox("-----------------------", player, 0, 125, 0)
 
-
   else
     Debug.Error("Can't find a bank account for player %s", id)
   end
 end
 
 Account.SavePlayerData = function(player)
-
   ElementData.Set(player, "lastonline", Time.GetTimestamp())
   Element.SaveData(player, "accounts")
-  --[[
-  local query = "UPDATE accounts SET "
-  for k,v in pairs(SQL_STRUCTURE["accounts"]) do
-    if SQL_STRUCTURE["accounts"][k].custom and SQL_STRUCTURE["accounts"][k].custom.autoSave then
-      if query ~= "UPDATE accounts SET " then
-        query = query..", "
-      end
-      query = query..SQL.PrepareString(k.." = ?", ElementData.Get(player, k))
-    end
-  end
-  query = query.." WHERE id = ?"
-
-  SQL.Exec(query, ElementData.Get(player, "id"))]]
-
 end
 
 Account.Register = function(player, username, email, password, password2, rules)
@@ -168,7 +153,7 @@ Account.Register = function(player, username, email, password, password2, rules)
   local salt = Random.GenerateString(8)
   local serial = getPlayerSerial(player)
 
-  local saltedPassword = sha256(sha256(password)..salt)
+  local saltedPassword = sha256(password..salt)
 
   local sql = "INSERT INTO accounts (`username`, `password`, `email`, `salt`, `serial`) VALUES (?, ?, ?, ?, ?)"
 
@@ -190,9 +175,9 @@ addEvent("tryLogin", true)
 addEvent("tryRegister", true)
 
 addEventHandler("tryLogin", root, function(username, password, autologin)
-  Account.Login(client, username, password, autologin)
-end)
+    Account.Login(client, username, password, autologin)
+  end)
 
 addEventHandler("tryRegister", root, function(username, email, password, password2, rules)
-  Account.Register(client, username, email, password, password2, rules)
-end)
+    Account.Register(client, username, email, password, password2, rules)
+  end)

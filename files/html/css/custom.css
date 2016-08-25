@@ -1,0 +1,15 @@
+#dialog-tuning {
+  position: absolute;
+  height: 100%;
+  width: 160px;
+  right: 0px;
+  z-index: -1;
+  background-color: rgba(125, 125, 125, 0.3);
+  padding: 5px 5px 5px 5px;
+  visibility: hidden;
+}
+
+.button-tuning {
+  margin-bottom: 3px;
+  width: 150px;
+}

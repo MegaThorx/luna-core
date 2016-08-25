@@ -1,6 +1,8 @@
 Models = {}
 Models.replace = {
-  --[2942] = {dff = "files/models/atm/atm.dff", txd = "files/models/atm/atm.txd", col = "files/models/atm/atm.col"}
+  [2942] = {dff = "files/models/atm/atm.dff", txd = "files/models/atm/atm.txd", col = "files/models/atm/atm.col"},
+  [10820] = {dff = "files/models/bridge/baybridge.dff", txd = "files/models/bridge/baybridge.txd", col = "files/models/bridge/baybridge.col"},
+  [7079] = {txd = "files/models/bridge/baybridge.txd"}
 }
 
 Models.Init = function()
@@ -17,5 +19,9 @@ Models.Init = function()
       local col = engineLoadCOL(v.col)
       engineReplaceCOL(col, k)
     end
+  end
+
+  for i=11379, 11382 do
+    removeWorldModel(i, 1000, -1397.8000488281, 826.40002441406, 47.200000762939)
   end
 end

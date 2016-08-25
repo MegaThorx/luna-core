@@ -29,7 +29,11 @@
   <script src="server/sql/structure.lua" type="server" />
   <script src="server/sql/orm.lua" type="server" />
 
+  <script src="server/jobs/farmer.lua" type="server" />
+
+  <script src="server/jobs.lua" type="server" />
   <script src="server/translations.lua" type="server" />
+  <script src="server/inventory.lua" type="server" />
   <script src="server/events.lua" type="server" />
   <script src="server/player.lua" type="server" />
   <script src="server/playervehicle.lua" type="server" />
@@ -52,6 +56,7 @@
   <script src="client/radar.lua" type="client" cache="false"/>
   <script src="client/models.lua" type="client" cache="false"/>
   <script src="client/hud.lua" type="client" cache="false"/>
+  <script src="client/inventory.lua" type="client" cache="false"/>
   <script src="client/binds.lua" type="client" cache="false"/>
   <script src="client/scoreboard.lua" type="client" cache="false"/>
   <script src="client/tuning.lua" type="client" cache="false"/>
@@ -65,6 +70,7 @@
   <!-- End Client -->
 
   <!-- Files -->
+  <file src="files/html/css/custom.css" />
   <file src="files/html/css/uikit.min.css" />
   <file src="files/html/css/materialize.min.css" />
   <file src="files/html/css/material-icons.css" />
@@ -134,6 +140,7 @@
   <file src="files/html/js/uikit.min.js" />
   <file src="files/html/js/translate.js" />
   <file src="files/html/js/helper.js" />
+  <file src="files/html/js/tuning.js" />
   <file src="files/html/js/materialize.min.js" />
   <file src="files/html/js/jquery-2.1.1.min.js" />
   <file src="files/html/js/jquery-3.0.0.min.js" />
@@ -313,11 +320,17 @@
   <file src="files/images/radar/blips/63.png" />
   <file src="files/images/radar/blips/64.png" />
 
+  <file src="files/images/inventory/sprunk.png" />
+  <file src="files/images/inventory/burger.png" />
+
 
   <file src="files/models/atm/atm.col" />
   <file src="files/models/atm/atm.txd" />
   <file src="files/models/atm/atm.dff" />
 
+  <file src="files/models/bridge/baybridge.col" />
+  <file src="files/models/bridge/baybridge.txd" />
+  <file src="files/models/bridge/baybridge.dff" />
 
   <file src="files/translations/de.ini" />
 

@@ -242,6 +242,29 @@ DBSchema.playerVehicles = {
   }
 }
 
+DBSchema.inventory = {
+  {
+    include = "id"
+  },
+  {
+    include = "account"
+  },
+  {
+    name = "slots",
+    datatype = "int",
+    default = 32,
+    custom = {
+      storeClient = true,
+      storeServer = true,
+      autoSave = true
+    }
+  },
+  {
+    name = "inventory",
+    datatype = "text"
+  }
+}
+
 DBSchema.bankAccounts = {
   {
     include = "id"

@@ -29,7 +29,7 @@ end
 Bank.CreateAtmMarker = function(element)
 
   local marker = createMarker(0, 0, 0, "cylinder", 1)
-  attachElements(marker, element, 0, -1, -1)
+  attachElements(marker, element, -0.05, 1, -0.5)
   setElementData(element, "marker", marker)
   setObjectBreakable(element, false)
 
